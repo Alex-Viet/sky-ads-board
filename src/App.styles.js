@@ -37,7 +37,7 @@ button {
   cursor: pointer;
 }
 
-div,
+input,
 button,
 a {
   font-family: 'Roboto', sans-serif;

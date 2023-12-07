@@ -50,6 +50,16 @@ export const Cards = styled.div`
     background-color: #0080c1;
     border-radius: 3px;
   }
+
+  @media screen and (max-width: 1158px) {
+    display: grid;
+    grid-template-columns: repeat(3, 270px);
+  }
+
+  @media screen and (max-width: 890px) {
+    display: grid;
+    grid-template-columns: repeat(2, 270px);
+  }
 `;
 
 export const CardsItem = styled.div`
@@ -81,7 +91,6 @@ export const CardContent = styled.div``;
 export const CardTitle = styled.h3`
   height: 52px;
   font-size: 22px;
-  font-weight: 500;
   line-height: 26px;
   color: #009ee4;
   margin-bottom: 10px;
@@ -93,7 +102,7 @@ export const CardTitle = styled.h3`
 export const CardPrice = styled.p`
   color: #000000;
   font-size: 22px;
-  font-weight: 500;
+  font-weight: 600;
   line-height: 33px;
   margin-bottom: 10px;
 `;
