@@ -1,5 +1,6 @@
 import { GlobalStyles, Wrapper, Container } from './App.styles';
-import { MainPage } from './pages/main-page/MainPage';
+import { Auth } from './pages/auth-page/Auth';
+// import { MainPage } from './pages/main-page/MainPage';
 
 export const App = () => {
   return (
@@ -7,7 +8,8 @@ export const App = () => {
       <GlobalStyles />
       <Wrapper>
         <Container>
-          <MainPage />
+          {/* <MainPage /> */}
+          <Auth />
         </Container>
       </Wrapper>
     </>

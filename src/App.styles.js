@@ -1,4 +1,4 @@
-import { createGlobalStyle, styled } from 'styled-components';
+import styled, { createGlobalStyle, css } from 'styled-components';
 
 export const GlobalStyles = createGlobalStyle`
 * {
@@ -43,6 +43,12 @@ a {
   font-family: 'Roboto', sans-serif;
 }
 
+input,
+button {
+  border: none;
+  outline: none;
+}
+
 ul li {
   list-style: none;
 }
@@ -62,4 +68,26 @@ export const Container = styled.div`
   width: 100%;
   margin: 0 auto;
   background-color: #ffffff;
+`;
+
+// Общие компоненты кнопок с border и без
+export const Button = css`
+  color: #ffffff;
+  background-color: #009ee4;
+  border-radius: 6px;
+
+  &:hover {
+    background-color: #0080c1;
+  }
+`;
+
+export const ButtonWithBorder = css`
+  color: #fff;
+  background-color: #009ee4;
+  border-radius: 6px;
+  border: 1px solid #fff;
+
+  &:hover {
+    background: rgba(255, 255, 255, 0.15);
+  }
 `;

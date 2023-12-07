@@ -1,4 +1,5 @@
 import styled from 'styled-components';
+import { Button } from '../../App.styles';
 
 export const MainSearch = styled.div`
   width: 100%;
@@ -59,17 +60,12 @@ export const SearchTextMob = styled.input`
 `;
 
 export const SearchButton = styled.button`
-  margin-left: 10px;
+  ${Button}
+
   width: 158px;
   height: 50px;
-  background-color: #009ee4;
-  border: 1px solid #009ee4;
-  border-radius: 6px;
   font-size: 16px;
   line-height: 24px;
-  color: #ffffff;
-
-  &:hover {
-    background-color: #0080c1;
-  }
+  border: 1px solid #009ee4;
+  margin-left: 10px;
 `;
