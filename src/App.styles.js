@@ -70,6 +70,8 @@ export const Container = styled.div`
   background-color: #ffffff;
 `;
 
+export const Main = styled.main``;
+
 // Общие компоненты кнопок с белым border и без
 export const Button = css`
   color: #ffffff;

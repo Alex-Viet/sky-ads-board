@@ -1,8 +1,6 @@
 import styled from 'styled-components';
 import { Button } from '../../App.styles';
 
-export const Main = styled.main``;
-
 export const MainContainer = styled.div`
   max-width: 1178px;
   margin: 0 auto;
