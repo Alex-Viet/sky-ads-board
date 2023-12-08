@@ -70,11 +70,12 @@ export const Container = styled.div`
   background-color: #ffffff;
 `;
 
-// Общие компоненты кнопок с border и без
+// Общие компоненты кнопок с белым border и без
 export const Button = css`
   color: #ffffff;
   background-color: #009ee4;
   border-radius: 6px;
+  border: 1px solid #009ee4;
 
   &:hover {
     background-color: #0080c1;
@@ -86,6 +87,9 @@ export const ButtonWithBorder = css`
   background-color: #009ee4;
   border-radius: 6px;
   border: 1px solid #fff;
+  padding: 8px 24px;
+  font-size: 16px;
+  line-height: 150%;
 
   &:hover {
     background: rgba(255, 255, 255, 0.15);

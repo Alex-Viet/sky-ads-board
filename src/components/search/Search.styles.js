@@ -2,14 +2,13 @@ import styled from 'styled-components';
 import { Button } from '../../App.styles';
 
 export const MainSearch = styled.div`
+  max-width: 1178px;
   width: 100%;
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 11px 0;
-  max-width: 1178px;
   margin: 0 auto;
-  padding: 31px 10px 0px;
+  padding: 43px 10px;
 `;
 
 export const SearchLogoLink = styled.a``;
@@ -25,11 +24,12 @@ export const SearchLogoMobLink = styled.a`
 
 export const SearchLogoMobImg = styled.img``;
 
-export const SearchForm = styled.form`
+export const SearchBlock = styled.div`
   margin-left: 60px;
   max-width: 1044px;
   width: 100%;
   display: flex;
+  gap: 10px;
 `;
 
 export const SearchText = styled.input`
@@ -66,6 +66,13 @@ export const SearchButton = styled.button`
   height: 50px;
   font-size: 16px;
   line-height: 24px;
-  border: 1px solid #009ee4;
-  margin-left: 10px;
+`;
+
+export const GoMainPageButton = styled.button`
+  ${Button}
+
+  width: 241px;
+  height: 50px;
+  font-size: 16px;
+  line-height: 150%;
 `;

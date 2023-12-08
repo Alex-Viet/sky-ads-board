@@ -9,7 +9,7 @@ export const Search = () => {
       <S.SearchLogoMobLink href="#" target="_blank">
         <S.SearchLogoMobImg src="img/logo-mob.png" alt="logo" />
       </S.SearchLogoMobLink>
-      <S.SearchForm action="#">
+      <S.SearchBlock>
         <S.SearchText
           type="search"
           placeholder="Поиск по объявлениям"
@@ -17,7 +17,10 @@ export const Search = () => {
         />
         <S.SearchTextMob type="search" placeholder="Поиск" name="search-mob" />
         <S.SearchButton>Найти</S.SearchButton>
-      </S.SearchForm>
+        <S.GoMainPageButton id="btnGoBack">
+          Вернуться на главную
+        </S.GoMainPageButton>
+      </S.SearchBlock>
     </S.MainSearch>
   );
 };
