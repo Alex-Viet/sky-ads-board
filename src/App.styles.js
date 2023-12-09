@@ -14,7 +14,13 @@ export const GlobalStyles = createGlobalStyle`
 
 @font-face {
     font-family: 'Roboto';
-    src: url('/fonts/Roboto-Regular.ttf');
+    src: url('/fonts/Roboto/Roboto-Regular.ttf');
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Noto Sans';
+    src: url('/fonts/NotoSans/NotoSans-Bold.ttf');
     font-style: normal;
 }
 
@@ -72,7 +78,13 @@ export const Container = styled.div`
 
 export const Main = styled.main``;
 
-// Общие компоненты кнопок с белым border и без
+export const MainContainer = styled.div`
+  max-width: 1178px;
+  margin: 0 auto;
+  padding: 10px 10px 30px;
+`;
+
+// Переиспользуемые компоненты кнопок и заголовков
 export const Button = css`
   color: #ffffff;
   background-color: #009ee4;
@@ -96,4 +108,17 @@ export const ButtonWithBorder = css`
   &:hover {
     background: rgba(255, 255, 255, 0.15);
   }
+`;
+
+export const TitleH2 = css`
+  color: #000;
+  font-size: 40px;
+  font-style: normal;
+  line-height: 220%;
+`;
+
+export const HeadingH3 = css`
+  ${TitleH2}
+
+  font-size: 32px;
 `;

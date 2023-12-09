@@ -1,3 +1,4 @@
+import { Link } from 'react-router-dom';
 import * as S from './Cards.styles';
 
 export const Cards = () => {
@@ -7,16 +8,16 @@ export const Cards = () => {
         <S.CardsItem>
           <S.Card>
             <S.CardImg>
-              <a href="#" target="_blank">
+              <Link to="ad">
                 <img src="#" alt="picture" />
-              </a>
+              </Link>
             </S.CardImg>
             <S.CardContent>
-              <a href="#" target="_blank">
+              <Link to="ad">
                 <S.CardTitle>
                   Ракетка для большого тенниса Triumph Pro ST
                 </S.CardTitle>
-              </a>
+              </Link>
               <S.CardPrice>2&nbsp;200&nbsp;₽</S.CardPrice>
               <S.CardPlace>Санкт Петербург</S.CardPlace>
               <S.CardDate>Сегодня в&nbsp;10:45</S.CardDate>

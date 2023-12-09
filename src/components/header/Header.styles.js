@@ -8,8 +8,7 @@ export const Header = styled.header`
 export const HeaderNav = styled.nav`
   max-width: 1178px;
   margin: 0 auto;
-  padding: 0 10px;
-  height: 79px;
+  padding: 20px 10px;
   display: flex;
   align-items: center;
   justify-content: flex-end;

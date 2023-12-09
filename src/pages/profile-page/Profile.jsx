@@ -3,7 +3,7 @@ import * as S from './Profile.styles';
 
 export const Profile = () => {
   return (
-    <S.MainContainer>
+    <>
       <S.ProfileContainer>
         <S.ProfileTitle>Здравствуйте, Антон!</S.ProfileTitle>
 
@@ -12,14 +12,14 @@ export const Profile = () => {
             <S.ProfileHeading>Настройки профиля</S.ProfileHeading>
             <S.ProfileSettings>
               <S.SettingsLeft>
-                <S.SettingsImg>
+                <S.SettingsAvatar>
                   <a href="#" target="_self">
                     <img src="#" alt="" />
                   </a>
-                </S.SettingsImg>
-                <S.SettingsChangeImg href="#" target="_self">
+                </S.SettingsAvatar>
+                <S.SettingsChangeAvatar href="#" target="_self">
                   Заменить
-                </S.SettingsChangeImg>
+                </S.SettingsChangeAvatar>
               </S.SettingsLeft>
               <S.SettingsRight>
                 <S.SettingsForm>
@@ -66,6 +66,6 @@ export const Profile = () => {
         <S.ProfileHeading>Мои товары</S.ProfileHeading>
         <Cards />
       </S.CardsContainer>
-    </S.MainContainer>
+    </>
   );
 };

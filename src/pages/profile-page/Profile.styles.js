@@ -1,19 +1,13 @@
 import styled from 'styled-components';
 import { Button } from '../../App.styles';
-
-export const MainContainer = styled.div`
-  max-width: 1178px;
-  margin: 0 auto;
-  padding: 10px 10px 30px;
-`;
+import { TitleH2 } from '../../App.styles';
+import { HeadingH3 } from '../../App.styles';
 
 export const ProfileContainer = styled.div``;
 
 export const ProfileTitle = styled.h2`
-  font-style: normal;
-  font-size: 40px;
-  line-height: 42px;
-  color: #000000;
+  ${TitleH2}
+
   margin-bottom: 30px;
 `;
 
@@ -26,9 +20,8 @@ export const ProfileContent = styled.div`
 `;
 
 export const ProfileHeading = styled.h3`
-  font-size: 32px;
-  line-height: 70px;
-  color: #000000;
+  ${HeadingH3}
+
   margin-bottom: 20px;
 `;
 
@@ -45,7 +38,7 @@ export const SettingsLeft = styled.div`
   margin-right: 43px;
 `;
 
-export const SettingsImg = styled.div`
+export const SettingsAvatar = styled.div`
   width: 170px;
   height: 170px;
   border-radius: 50%;
@@ -59,7 +52,7 @@ export const SettingsImg = styled.div`
   }
 `;
 
-export const SettingsChangeImg = styled.a`
+export const SettingsChangeAvatar = styled.a`
   margin-top: 10px;
   margin-bottom: 30px;
   text-decoration: none;
