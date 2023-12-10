@@ -8,12 +8,12 @@ export const Cards = () => {
         <S.CardsItem>
           <S.Card>
             <S.CardImg>
-              <Link to="ad">
+              <Link to="/ad">
                 <img src="#" alt="picture" />
               </Link>
             </S.CardImg>
             <S.CardContent>
-              <Link to="ad">
+              <Link to="/ad">
                 <S.CardTitle>
                   Ракетка для большого тенниса Triumph Pro ST
                 </S.CardTitle>

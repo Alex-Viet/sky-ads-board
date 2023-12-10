@@ -11,7 +11,7 @@ export const Header = () => {
         <S.HeaderButton
           id="btnMainEnter"
           onClick={() => {
-            navigate('profile');
+            navigate('/profile');
           }}
         >
           Вход в личный кабинет/Личный кабинет

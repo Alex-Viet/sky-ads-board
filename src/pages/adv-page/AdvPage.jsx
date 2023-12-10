@@ -39,7 +39,7 @@ export const AdvPage = () => {
           <S.ArticleInfoContainer>
             <S.ArticleInfo>
               <S.ArticleHeading>
-                Ракетка для большого тенниса Triumph Pro STС Б/У
+                Ракетка для большого тенниса Triumph Pro STC Б/У
               </S.ArticleHeading>
               <S.ArticleInfoText>
                 <p>Сегодня в 10:45</p>
@@ -49,7 +49,7 @@ export const AdvPage = () => {
               <S.ArticlePrice>2 200 ₽</S.ArticlePrice>
               <S.ArticleButton>
                 Показать&nbsp;телефон
-                <span>8&nbsp;905&nbsp;ХХХ&nbsp;ХХ&nbsp;ХХ</span>
+                <span>8&nbsp;905&nbsp;XXX&nbsp;XX&nbsp;XX</span>
               </S.ArticleButton>
               <S.ArticleAuthor>
                 <S.AuthorImg>
