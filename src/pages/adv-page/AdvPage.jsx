@@ -1,6 +1,8 @@
+import { ShowPhoneNumButton } from '../../components/phone-num-button/ShowPhoneNumButton';
 import * as S from './AdvPage.styles';
 
 export const AdvPage = () => {
+  const myAd = false;
   return (
     <>
       <S.ArticleContainer>
@@ -47,10 +49,14 @@ export const AdvPage = () => {
                 <a href="#">23 отзыва</a>
               </S.ArticleInfoText>
               <S.ArticlePrice>2 200 ₽</S.ArticlePrice>
-              <S.ArticleButton>
-                Показать&nbsp;телефон
-                <span>8&nbsp;905&nbsp;XXX&nbsp;XX&nbsp;XX</span>
-              </S.ArticleButton>
+              {!myAd && <ShowPhoneNumButton />}
+              {myAd && (
+                <S.ButtonsContainer>
+                  <S.ArticleButton>Редактировать</S.ArticleButton>
+                  <S.ArticleButton>Снять с публикации</S.ArticleButton>
+                </S.ButtonsContainer>
+              )}
+
               <S.ArticleAuthor>
                 <S.AuthorImg>
                   <img src="#" alt="" />

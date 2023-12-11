@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import { Button, HeadingH3 } from '../../App.styles';
+import { HeadingH3, Button } from '../../App.styles';
 
 export const ArticleContainer = styled.div`
   margin-top: 24px;
@@ -114,20 +114,6 @@ export const ArticlePrice = styled.p`
   margin-bottom: 20px;
 `;
 
-export const ArticleButton = styled.button`
-  ${Button}
-
-  width: 214px;
-  font-size: 16px;
-  line-height: 140%;
-  padding: 10px 37px;
-
-  & span {
-    display: block;
-    font-size: 14px;
-  }
-`;
-
 export const ArticleAuthor = styled.div`
   margin-top: 34px;
   margin-bottom: 20px;
@@ -186,4 +172,18 @@ export const Description = styled.div`
     font-size: 16px;
     line-height: 150%;
   }
+`;
+
+export const ButtonsContainer = styled.div`
+  display: flex;
+`;
+
+export const ArticleButton = styled.button`
+  ${Button}
+
+  font-size: 16px;
+  font-style: normal;
+  line-height: 150%;
+  margin-right: 10px;
+  padding: 13px 37px;
 `;

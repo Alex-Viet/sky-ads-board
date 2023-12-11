@@ -24,6 +24,12 @@ export const GlobalStyles = createGlobalStyle`
     font-style: normal;
 }
 
+@font-face {
+    font-family: 'Noto Sans Regular';
+    src: url('/fonts/NotoSans/NotoSans-Regular.ttf');
+    font-style: normal;
+}
+
 a,
 a:visited {
   text-decoration: none;

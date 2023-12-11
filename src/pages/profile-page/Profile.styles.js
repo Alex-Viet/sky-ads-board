@@ -121,3 +121,24 @@ export const SettingsButton = styled.button`
 export const CardsContainer = styled.div`
   margin-top: 70px;
 `;
+
+export const SellerInfoContainer = styled.div`
+  & p {
+    font-size: 16px;
+    line-height: 21px;
+    color: #5f5f5f;
+    margin-bottom: 10px;
+    font-family: 'Noto Sans Regular', sans-serif;
+  }
+
+  & p:first-of-type {
+    font-size: 20px;
+    font-weight: 600;
+    line-height: 40px;
+    color: #000000;
+  }
+
+  & p:last-of-type {
+    margin-bottom: 30px;
+  }
+`;
