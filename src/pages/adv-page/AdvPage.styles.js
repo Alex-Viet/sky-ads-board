@@ -2,7 +2,7 @@ import styled from 'styled-components';
 import { HeadingH3, Button } from '../../App.styles';
 
 export const ArticleContainer = styled.div`
-  margin-top: 24px;
+  margin-top: 28px;
 `;
 
 export const Article = styled.div`
@@ -154,13 +154,13 @@ export const AuthorAbout = styled.p`
 `;
 
 export const ArticleDescriptionContainer = styled.div`
-  margin-top: 60px;
+  margin-top: 62px;
 `;
 
 export const DescriptionHeading = styled.h3`
   ${HeadingH3}
 
-  margin-bottom: 32px;
+  margin-bottom: 20px;
 `;
 
 export const Description = styled.div`

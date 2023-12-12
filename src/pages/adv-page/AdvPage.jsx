@@ -10,23 +10,23 @@ export const AdvPage = () => {
           <S.ArticleMerryGoRound>
             <S.Carousel>
               <S.CarouselImg>
-                <img src="#" alt="article" />
+                <img src="#" alt="" />
               </S.CarouselImg>
               <S.CarouselBar>
                 <S.CarouselBarImg>
-                  <img src="#" alt="article" />
+                  <img src="#" alt="" />
                 </S.CarouselBarImg>
                 <S.CarouselBarImg>
-                  <img src="#" alt="article" />
+                  <img src="#" alt="" />
                 </S.CarouselBarImg>
                 <S.CarouselBarImg>
-                  <img src="#" alt="article" />
+                  <img src="#" alt="" />
                 </S.CarouselBarImg>
                 <S.CarouselBarImg>
-                  <img src="#" alt="article" />
+                  <img src="#" alt="" />
                 </S.CarouselBarImg>
                 <S.CarouselBarImg>
-                  <img src="#" alt="article" />
+                  <img src="#" alt="" />
                 </S.CarouselBarImg>
               </S.CarouselBar>
               <S.CarouselBarMob>

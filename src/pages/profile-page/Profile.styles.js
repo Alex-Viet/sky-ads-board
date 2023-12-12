@@ -8,7 +8,7 @@ export const ProfileContainer = styled.div``;
 export const ProfileTitle = styled.h2`
   ${TitleH2}
 
-  margin-bottom: 30px;
+  margin-bottom: 10px;
 `;
 
 export const Profile = styled.div`
@@ -35,7 +35,7 @@ export const SettingsLeft = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  margin-right: 43px;
+  margin-right: 47px;
 `;
 
 export const SettingsAvatar = styled.div`
@@ -99,7 +99,7 @@ export const SettingsForm = styled.form`
 
 export const SettingsInputContainer = styled.div`
   display: inline-block;
-  margin: 0 7px 20px;
+  margin: 0 7px 25px;
 
   &:last-of-type {
     input {

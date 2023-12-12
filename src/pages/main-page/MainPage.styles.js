@@ -4,5 +4,5 @@ import { TitleH2 } from '../../App.styles';
 export const MainTitle = styled.h2`
   ${TitleH2}
 
-  margin-bottom: 30px;
+  margin-bottom: 10px;
 `;
