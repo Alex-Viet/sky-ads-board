@@ -8,7 +8,7 @@ export const MainSearch = styled.div`
   align-items: center;
   justify-content: space-between;
   margin: 0 auto;
-  padding: 43px 10px;
+  padding: 40px 10px;
 `;
 
 export const SearchLogoLink = styled.a``;

@@ -10,10 +10,12 @@ export const AuthContainer = styled.div`
 `;
 
 export const Modal = styled.div`
+  --modal-width: 366px;
+  --modal-height: 647px;
   position: absolute;
   z-index: 2;
-  left: calc(50% - (366px / 2));
-  top: calc(50% - (647px / 2));
+  left: calc(50% - (var(--modal-width) / 2));
+  top: calc(50% - (var(--modal-height) / 2));
   opacity: 1;
   width: 366px;
   background-color: #ffffff;
@@ -21,7 +23,7 @@ export const Modal = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding: 43px 42px 47px;
+  padding: 43px 47px 47px 40px;
 `;
 
 export const ModalLogo = styled.div`

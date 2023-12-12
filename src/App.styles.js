@@ -24,6 +24,12 @@ export const GlobalStyles = createGlobalStyle`
     font-style: normal;
 }
 
+@font-face {
+    font-family: 'Noto Sans Regular';
+    src: url('/fonts/NotoSans/NotoSans-Regular.ttf');
+    font-style: normal;
+}
+
 a,
 a:visited {
   text-decoration: none;
@@ -45,6 +51,7 @@ button {
 
 input,
 button,
+textarea,
 a {
   font-family: 'Roboto', sans-serif;
 }
@@ -81,18 +88,18 @@ export const Main = styled.main``;
 export const MainContainer = styled.div`
   max-width: 1178px;
   margin: 0 auto;
-  padding: 10px 10px 30px;
+  padding: 4px 10px 30px;
 `;
 
 // Переиспользуемые компоненты кнопок и заголовков
 export const Button = css`
   color: #ffffff;
-  background-color: #009ee4;
   border-radius: 6px;
-  border: 1px solid #009ee4;
+  background-color: ${(props) => (props.$disable ? '#d9d9d9' : '#009ee4')};
+  border: ${(props) => (props.$disable ? '1px solid #d9d9d9' : '#009ee4')};
 
   &:hover {
-    background-color: #0080c1;
+    background-color: ${(props) => (props.$disable ? '#d9d9d9' : '#0080c1')};
   }
 `;
 
