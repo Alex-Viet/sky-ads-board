@@ -7,7 +7,7 @@ export const ArticleContainer = styled.div`
 
 export const Article = styled.div`
   display: flex;
-  justify-content: center;
+  justify-content: flex-start;
 `;
 
 export const ArticleMerryGoRound = styled.div`
@@ -30,7 +30,6 @@ export const Carousel = styled.div`
 export const CarouselImg = styled.div`
   width: 480px;
   height: 480px;
-  background-color: #f0f0f0;
   margin: 0 5px;
 
   & img {
@@ -62,7 +61,7 @@ export const CarouselBarImg = styled.div`
 
   & img {
     width: 100%;
-    height: auto;
+    height: 100%;
     display: block;
     object-fit: cover;
   }
@@ -147,7 +146,7 @@ export const AuthorName = styled.p`
 `;
 
 export const AuthorAbout = styled.p`
-  font-family: 'Noto Sans', sans-serif;
+  font-family: 'Noto Sans Regular', sans-serif;
   font-size: 16px;
   line-height: 200%;
   color: #5f5f5f;

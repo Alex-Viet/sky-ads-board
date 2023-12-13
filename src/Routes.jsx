@@ -15,7 +15,7 @@ export const AppRoutes = () => {
         <Route index element={<MainPage />}></Route>
         <Route path="/profile" element={<Profile />}></Route>
         <Route path="/seller-profile" element={<SellerProfile />}></Route>
-        <Route path="/ad" element={<AdvPage />}></Route>
+        <Route path="/ad/:id" element={<AdvPage />}></Route>
         <Route path="/my-ad" element={<MyAdvPage />}></Route>
       </Route>
     </Routes>
