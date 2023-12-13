@@ -86,7 +86,7 @@ export const Container = styled.div`
 export const Main = styled.main``;
 
 export const MainContainer = styled.div`
-  max-width: 1178px;
+  max-width: 1208px;
   margin: 0 auto;
   padding: 4px 10px 30px;
 `;
@@ -97,6 +97,7 @@ export const Button = css`
   border-radius: 6px;
   background-color: ${(props) => (props.$disable ? '#d9d9d9' : '#009ee4')};
   border: ${(props) => (props.$disable ? '1px solid #d9d9d9' : '#009ee4')};
+  transition: all 0.3s ease-out;
 
   &:hover {
     background-color: ${(props) => (props.$disable ? '#d9d9d9' : '#0080c1')};
@@ -111,6 +112,7 @@ export const ButtonWithBorder = css`
   padding: 8px 24px;
   font-size: 16px;
   line-height: 150%;
+  transition: all 0.3s ease-out;
 
   &:hover {
     background: rgba(255, 255, 255, 0.15);

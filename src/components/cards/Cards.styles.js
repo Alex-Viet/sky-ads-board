@@ -6,13 +6,14 @@ export const MainContent = styled.div`
 `;
 
 export const Cards = styled.div`
-  max-width: 1158px;
+  --grid-gap: 40px 26px;
+
   width: 100%;
   display: grid;
   grid-template-columns: repeat(4, 270px);
-  grid-auto-rows: 441px;
-  grid-gap: 40px 26px;
+  grid-gap: var(--grid-gap);
   justify-content: center;
+  padding-top: 30px;
 
   overflow-y: auto;
   scrollbar-color: #ffffff #2e2e2e; // Firefox
@@ -29,24 +30,21 @@ export const Cards = styled.div`
     border-radius: 3px;
   }
 
-  @media screen and (max-width: 1158px) {
+  @media screen and (max-width: 1226px) {
     display: grid;
     grid-template-columns: repeat(3, 270px);
   }
 
-  @media screen and (max-width: 890px) {
+  @media screen and (max-width: 930px) {
     display: grid;
     grid-template-columns: repeat(2, 270px);
   }
 `;
 
-export const CardsItem = styled.div`
-  margin: 0;
-`;
+export const CardsItem = styled.div``;
 
 export const Card = styled.div`
   width: 270px;
-  height: 441px;
   display: flex;
   flex-direction: column;
 `;
@@ -55,6 +53,8 @@ export const CardImg = styled.div`
   width: 270px;
   height: 270px;
   background-color: #f0f0f0;
+  border: 1px solid #f0f0f0;
+  transition: all 0.5s linear;
 
   & img {
     width: 100%;
@@ -62,19 +62,28 @@ export const CardImg = styled.div`
     display: block;
     object-fit: cover;
   }
+
+  &:hover {
+    transform: scale(1.1);
+    box-shadow: 0 0 10px #4b4848;
+  }
 `;
 
 export const CardContent = styled.div``;
 
 export const CardTitle = styled.h3`
-  height: 52px;
   font-size: 22px;
-  line-height: 26px;
+  line-height: 120%;
   color: #009ee4;
   margin-bottom: 10px;
   margin-top: 20px;
   overflow: hidden;
   text-overflow: ellipsis;
+  transition: color 0.3s ease-out;
+
+  &:hover {
+    color: #ff6163;
+  }
 `;
 
 export const CardPrice = styled.p`

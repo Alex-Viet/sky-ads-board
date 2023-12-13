@@ -1,15 +1,15 @@
 import { Cards } from '../../components/cards/Cards';
-// import { useGetAdsQuery } from '../../services/ads';
+import { useGetAdsQuery } from '../../services/ads';
+
 import * as S from './MainPage.styles';
 
 export const MainPage = () => {
-  // const { data = [] } = useGetAdsQuery();
-  // console.log(data);
+  const { data = [], isLoading, isError } = useGetAdsQuery();
 
   return (
     <>
       <S.MainTitle>Объявления</S.MainTitle>
-      <Cards />
+      <Cards data={data} />
     </>
   );
 };

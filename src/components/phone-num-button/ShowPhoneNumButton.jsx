@@ -1,10 +1,19 @@
+import { useState } from 'react';
 import { PhoneNumButton } from './ShowPhoneNumButton.styles';
 
-export const ShowPhoneNumButton = () => {
-  return (
-    <PhoneNumButton>
+export const ShowPhoneNumButton = ({ phone }) => {
+  const [showPhone, setShowPhone] = useState(false);
+
+  const toggleShowPhoneNum = () => {
+    setShowPhone(!showPhone);
+  };
+
+  return phone ? (
+    <PhoneNumButton onClick={toggleShowPhoneNum}>
       Показать&nbsp;телефон
-      <span>8&nbsp;905&nbsp;XXX&nbsp;XX&nbsp;XX</span>
+      <span>{showPhone ? phone : `${phone.slice(0, 4)} XXX XX XX`}</span>
     </PhoneNumButton>
+  ) : (
+    <p>К сожалению, продавец не оставил номер телефона</p>
   );
 };

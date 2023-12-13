@@ -1,8 +1,20 @@
+import { useState } from 'react';
+import { useParams } from 'react-router-dom';
 import { ShowPhoneNumButton } from '../../components/phone-num-button/ShowPhoneNumButton';
+import { useGetAdsQuery } from '../../services/ads';
+import { formatDate } from '../../utils/getDate';
 import * as S from './AdvPage.styles';
+
+export const baseUrl = 'http://127.0.0.1:8090/';
 
 export const AdvPage = () => {
   const myAd = false;
+  const { id } = useParams();
+  const { data = [], isLoading, isError } = useGetAdsQuery();
+  const actualAd = data.find((el) => el.id === Number(id));
+
+  const [actualImg, setActualImg] = useState(null);
+
   return (
     <>
       <S.ArticleContainer>
@@ -10,24 +22,34 @@ export const AdvPage = () => {
           <S.ArticleMerryGoRound>
             <S.Carousel>
               <S.CarouselImg>
-                <img src="#" alt="" />
+                <img
+                  src={
+                    !actualImg
+                      ? actualAd?.images[0]
+                        ? baseUrl + actualAd.images[0].url
+                        : '/img/nopic.png'
+                      : actualAd?.images[0]
+                        ? baseUrl + actualImg
+                        : '/img/nopic.png'
+                  }
+                />
               </S.CarouselImg>
               <S.CarouselBar>
-                <S.CarouselBarImg>
-                  <img src="#" alt="" />
-                </S.CarouselBarImg>
-                <S.CarouselBarImg>
-                  <img src="#" alt="" />
-                </S.CarouselBarImg>
-                <S.CarouselBarImg>
-                  <img src="#" alt="" />
-                </S.CarouselBarImg>
-                <S.CarouselBarImg>
-                  <img src="#" alt="" />
-                </S.CarouselBarImg>
-                <S.CarouselBarImg>
-                  <img src="#" alt="" />
-                </S.CarouselBarImg>
+                {actualAd?.images.map((image) => (
+                  <S.CarouselBarImg
+                    key={image.id}
+                    onClick={() => setActualImg(image.url)}
+                  >
+                    <img
+                      src={
+                        actualAd?.images[0]
+                          ? baseUrl + image.url
+                          : '/img/nopic.png'
+                      }
+                      alt=""
+                    />
+                  </S.CarouselBarImg>
+                ))}
               </S.CarouselBar>
               <S.CarouselBarMob>
                 <div className="img-bar-mob__circle circle-active"></div>
@@ -40,16 +62,16 @@ export const AdvPage = () => {
           </S.ArticleMerryGoRound>
           <S.ArticleInfoContainer>
             <S.ArticleInfo>
-              <S.ArticleHeading>
-                Ракетка для большого тенниса Triumph Pro STC Б/У
-              </S.ArticleHeading>
+              <S.ArticleHeading>{actualAd?.title}</S.ArticleHeading>
               <S.ArticleInfoText>
-                <p>Сегодня в 10:45</p>
-                <p>Санкт-Петербург</p>
+                <p>{formatDate(actualAd?.created_on)}</p>
+                <p>{actualAd?.user.city}</p>
                 <a href="#">23 отзыва</a>
               </S.ArticleInfoText>
-              <S.ArticlePrice>2 200 ₽</S.ArticlePrice>
-              {!myAd && <ShowPhoneNumButton />}
+              <S.ArticlePrice>
+                {actualAd?.price?.toLocaleString('ru')} ₽
+              </S.ArticlePrice>
+              {!myAd && <ShowPhoneNumButton phone={actualAd?.user.phone} />}
               {myAd && (
                 <S.ButtonsContainer>
                   <S.ArticleButton>Редактировать</S.ArticleButton>
@@ -59,11 +81,15 @@ export const AdvPage = () => {
 
               <S.ArticleAuthor>
                 <S.AuthorImg>
-                  <img src="#" alt="" />
+                  {actualAd?.user?.avatar && (
+                    <img src={baseUrl + actualAd.user.avatar} alt="" />
+                  )}
                 </S.AuthorImg>
                 <S.AuthorInfo>
-                  <S.AuthorName>Кирилл</S.AuthorName>
-                  <S.AuthorAbout>Продает товары с августа 2021</S.AuthorAbout>
+                  <S.AuthorName>{actualAd?.user?.name}</S.AuthorName>
+                  <S.AuthorAbout>
+                    Продает товары с {formatDate(actualAd?.user?.sells_from)}
+                  </S.AuthorAbout>
                 </S.AuthorInfo>
               </S.ArticleAuthor>
             </S.ArticleInfo>
@@ -74,15 +100,11 @@ export const AdvPage = () => {
       <S.ArticleDescriptionContainer>
         <S.DescriptionHeading>Описание товара</S.DescriptionHeading>
         <S.Description>
-          <p>
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-            eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim
-            ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut
-            aliquip ex ea commodo consequat. Duis aute irure dolor in
-            reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla
-            pariatur. Excepteur sint occaecat cupidatat non proident, sunt in
-            culpa qui officia deserunt mollit anim id est laborum.
-          </p>
+          {actualAd?.description ? (
+            <p>{actualAd?.description}</p>
+          ) : (
+            <p>Описание товара отсутствует</p>
+          )}
         </S.Description>
       </S.ArticleDescriptionContainer>
     </>
