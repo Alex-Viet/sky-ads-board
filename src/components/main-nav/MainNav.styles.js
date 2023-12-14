@@ -11,8 +11,6 @@ export const MainSearch = styled.div`
   padding: 40px 10px;
 `;
 
-export const SearchLogoLink = styled.a``;
-
 export const SearchLogoImg = styled.img`
   width: 54px;
   height: auto;

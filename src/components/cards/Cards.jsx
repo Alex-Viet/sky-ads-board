@@ -1,13 +1,28 @@
+import { useState } from 'react';
+import { useEffect } from 'react';
 import { Link } from 'react-router-dom';
+import { useSearch } from '../../context/SearchContext';
 import { baseUrl } from '../../pages/adv-page/AdvPage';
 import { formatDate } from '../../utils/getDate';
 import * as S from './Cards.styles';
 
 export const Cards = ({ data }) => {
+  // Поиск
+  const [filteredAds, setFilteredAds] = useState();
+  const { searchValue } = useSearch();
+
+  useEffect(() => {
+    const searchFilter = data?.filter((ad) =>
+      ad.title.toLowerCase().includes(searchValue),
+    );
+
+    setFilteredAds(searchValue ? searchFilter : data);
+  }, [searchValue, data]);
+
   return (
     <S.MainContent>
       <S.Cards>
-        {data?.map((ad) => (
+        {filteredAds?.map((ad) => (
           <S.CardsItem key={ad.id}>
             <S.Card>
               <S.CardImg>
