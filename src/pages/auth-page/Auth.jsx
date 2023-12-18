@@ -61,7 +61,7 @@ export const Auth = () => {
           return;
         } else {
           getTokens({ email, password }).then((tokensData) => {
-            localStorage.setItem(email, JSON.stringify(tokensData.data));
+            localStorage.setItem('ads-board', JSON.stringify(tokensData.data));
           });
 
           navigate('/', { replace: true });
