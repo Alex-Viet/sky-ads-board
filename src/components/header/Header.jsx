@@ -7,11 +7,10 @@ export const Header = () => {
   return (
     <S.Header>
       <S.HeaderNav>
-        <S.HeaderButton id="btnMainEnter">Разместить объявление</S.HeaderButton>
+        <S.HeaderButton>Разместить объявление</S.HeaderButton>
         <S.HeaderButton
-          id="btnMainEnter"
           onClick={() => {
-            navigate('/profile');
+            navigate('/auth');
           }}
         >
           Вход в личный кабинет/Личный кабинет

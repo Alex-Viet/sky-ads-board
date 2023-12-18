@@ -38,7 +38,7 @@ export const ModalLogo = styled.div`
   }
 `;
 
-export const ModalForm = styled.form``;
+export const ModalForm = styled.div``;
 
 export const ModalInput = styled.input`
   width: 100%;
