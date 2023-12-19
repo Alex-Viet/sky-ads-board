@@ -4,10 +4,11 @@ import {
   useGetTokensMutation,
   useRegisterUserMutation,
 } from '../../services/users';
+import { trimSpaces } from '../../utils/stringHandlers';
 import * as S from './Auth.styles';
 
 export const Auth = () => {
-  const isLogin = false;
+  const [isLoginMode, setLoginMode] = useState(true);
 
   const navigate = useNavigate();
 
@@ -37,38 +38,61 @@ export const Auth = () => {
       return;
     }
 
-    if (!password) {
+    if (!password.trim()) {
       setError('Введите пароль');
       return;
     }
 
-    if (password !== repeatPass) {
-      setError('Пароли не совпадают');
+    if (password.length < 3) {
+      setError('Пароль должен содержать не менее 3 символов');
       return;
     }
 
-    try {
-      await registerUser({
-        email,
-        password,
-        name,
-        surname,
-        city,
-        role: 'user',
-      }).then((userData) => {
-        if (userData.error?.status === 400) {
-          setError('Пользователь с таким email уже существует');
-          return;
-        } else {
-          getTokens({ email, password }).then((tokensData) => {
-            localStorage.setItem('ads-board', JSON.stringify(tokensData.data));
-          });
+    if (isLoginMode) {
+      // Авторизация
 
-          navigate('/', { replace: true });
-        }
-      });
-    } catch (error) {
-      console.error(error.message);
+      try {
+        await getTokens({ email, password }).then((tokensData) => {
+          localStorage.setItem('ads-board', JSON.stringify(tokensData.data));
+        });
+
+        navigate('/', { replace: true });
+      } catch (error) {
+        console.error(error.message);
+      }
+    } else {
+      if (password !== repeatPass) {
+        setError('Пароли не совпадают');
+        return;
+      }
+
+      // Регистрация
+      try {
+        await registerUser({
+          email,
+          password,
+          name: trimSpaces(name),
+          surname: trimSpaces(surname),
+          city: trimSpaces(city),
+          role: 'user',
+        }).then((userData) => {
+          if (userData.error?.status === 400) {
+            setError('Пользователь с таким email уже существует');
+            return;
+          } else {
+            getTokens({ email, password }).then((tokensData) => {
+              localStorage.setItem(
+                'ads-board',
+                JSON.stringify(tokensData.data),
+              );
+            });
+
+            navigate('/', { replace: true });
+          }
+        });
+      } catch (error) {
+        console.error(error.message);
+      }
     }
   };
 
@@ -95,7 +119,7 @@ export const Auth = () => {
             onChange={(e) => setPassword(e.target.value)}
             required
           />
-          {!isLogin && (
+          {!isLoginMode && (
             <>
               <S.ModalInput
                 type="password"
@@ -130,12 +154,21 @@ export const Auth = () => {
           )}
           {error && <p style={{ color: 'coral' }}>{error}</p>}
           <S.ModalButton onClick={handleSignUp}>
-            {isLogin ? 'Войти' : 'Зарегистрироваться'}
+            {isLoginMode ? 'Войти' : 'Зарегистрироваться'}
           </S.ModalButton>
-          {isLogin && (
-            <S.ModalButtonRegister className="modal__btn-signup" id="btnSignUp">
+          {isLoginMode && (
+            <S.ModalButtonRegister onClick={() => setLoginMode(false)}>
               Зарегистрироваться
             </S.ModalButtonRegister>
+          )}
+          {!isLoginMode && (
+            <S.BackToLoginBlock>
+              {' '}
+              <S.BackToLoginText>
+                Вернуться к{' '}
+                <span onClick={() => setLoginMode(true)}>авторизации</span>
+              </S.BackToLoginText>
+            </S.BackToLoginBlock>
           )}
         </S.ModalForm>
       </S.Modal>

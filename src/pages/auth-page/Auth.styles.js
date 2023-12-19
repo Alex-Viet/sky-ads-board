@@ -83,3 +83,22 @@ export const ModalButtonRegister = styled.button`
     background-color: #f4f5f6;
   }
 `;
+
+export const BackToLoginBlock = styled.div`
+  display: flex;
+  justify-content: center;
+  margin-top: 20px;
+`;
+
+export const BackToLoginText = styled.p`
+  font-size: 14px;
+
+  & span {
+    text-decoration: underline;
+    cursor: pointer;
+
+    &:hover {
+      color: #ff6163;
+    }
+  }
+`;
