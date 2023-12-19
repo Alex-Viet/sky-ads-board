@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { useEffect } from 'react';
 import { Link } from 'react-router-dom';
+import { LoaderMarginContainer } from '../../App.styles';
 import { useSearch } from '../../context/SearchContext';
 import { baseUrl } from '../../pages/adv-page/AdvPage';
 import { formatDate } from '../../utils/getDate';
@@ -23,7 +24,9 @@ export const Cards = ({ data, isLoading, isError, error }) => {
   return (
     <S.MainContent>
       {isLoading ? (
-        <Loader />
+        <LoaderMarginContainer>
+          <Loader />
+        </LoaderMarginContainer>
       ) : isError ? (
         <h2>Ошибка: {error?.error}</h2>
       ) : (

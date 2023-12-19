@@ -38,10 +38,14 @@ export const ModalLogo = styled.div`
   }
 `;
 
-export const ModalForm = styled.div``;
+export const ModalForm = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+`;
 
 export const ModalInput = styled.input`
-  width: 100%;
+  width: 278px;
   border-bottom: 1px solid #d0cece;
   padding: 8px 1px;
   margin-bottom: 38px;

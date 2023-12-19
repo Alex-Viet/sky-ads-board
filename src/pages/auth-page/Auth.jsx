@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { Loader } from '../../components/loader/Loader';
 import {
   useGetTokensMutation,
   useRegisterUserMutation,
@@ -12,8 +13,8 @@ export const Auth = () => {
 
   const navigate = useNavigate();
 
-  const [registerUser] = useRegisterUserMutation();
-  const [getTokens] = useGetTokensMutation();
+  const [registerUser, { isLoading: regLoading }] = useRegisterUserMutation();
+  const [getTokens, { isLoading }] = useGetTokensMutation();
 
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -51,15 +52,15 @@ export const Auth = () => {
     if (isLoginMode) {
       // Авторизация
 
-      try {
-        await getTokens({ email, password }).then((tokensData) => {
+      await getTokens({ email, password }).then((tokensData) => {
+        if (tokensData.error?.status === 401) {
+          setError('Неправильный пароль');
+          return;
+        } else {
           localStorage.setItem('ads-board', JSON.stringify(tokensData.data));
-        });
-
-        navigate('/', { replace: true });
-      } catch (error) {
-        console.error(error.message);
-      }
+          navigate('/', { replace: true });
+        }
+      });
     } else {
       if (password !== repeatPass) {
         setError('Пароли не совпадают');
@@ -67,33 +68,36 @@ export const Auth = () => {
       }
 
       // Регистрация
-      try {
-        await registerUser({
-          email,
-          password,
-          name: trimSpaces(name),
-          surname: trimSpaces(surname),
-          city: trimSpaces(city),
-          role: 'user',
-        }).then((userData) => {
-          if (userData.error?.status === 400) {
-            setError('Пользователь с таким email уже существует');
-            return;
-          } else {
-            getTokens({ email, password }).then((tokensData) => {
-              localStorage.setItem(
-                'ads-board',
-                JSON.stringify(tokensData.data),
-              );
-            });
+      await registerUser({
+        email,
+        password,
+        name: trimSpaces(name),
+        surname: trimSpaces(surname),
+        city: trimSpaces(city),
+        role: 'user',
+      }).then((userData) => {
+        if (userData.error?.status === 400) {
+          setError('Пользователь с таким email уже существует');
+          return;
+        } else {
+          getTokens({ email, password }).then((tokensData) => {
+            localStorage.setItem('ads-board', JSON.stringify(tokensData.data));
+          });
 
-            navigate('/', { replace: true });
-          }
-        });
-      } catch (error) {
-        console.error(error.message);
-      }
+          navigate('/', { replace: true });
+        }
+      });
     }
+  };
+
+  const handleToRegForm = () => {
+    setLoginMode(false);
+    setError(null);
+  };
+
+  const handleToLoginForm = () => {
+    setLoginMode(true);
+    setError(null);
   };
 
   return (
@@ -153,21 +157,29 @@ export const Auth = () => {
             </>
           )}
           {error && <p style={{ color: 'coral' }}>{error}</p>}
-          <S.ModalButton onClick={handleSignUp}>
-            {isLoginMode ? 'Войти' : 'Зарегистрироваться'}
-          </S.ModalButton>
-          {isLoginMode && (
-            <S.ModalButtonRegister onClick={() => setLoginMode(false)}>
-              Зарегистрироваться
-            </S.ModalButtonRegister>
+          {isLoading || regLoading ? (
+            <Loader />
+          ) : (
+            <>
+              <S.ModalButton onClick={handleSignUp}>
+                {isLoginMode ? 'Войти' : 'Зарегистрироваться'}
+              </S.ModalButton>
+              {isLoginMode && (
+                <S.ModalButtonRegister onClick={handleToRegForm}>
+                  Зарегистрироваться
+                </S.ModalButtonRegister>
+              )}
+            </>
           )}
           {!isLoginMode && (
             <S.BackToLoginBlock>
               {' '}
-              <S.BackToLoginText>
-                Вернуться к{' '}
-                <span onClick={() => setLoginMode(true)}>авторизации</span>
-              </S.BackToLoginText>
+              {!regLoading && (
+                <S.BackToLoginText>
+                  Вернуться к{' '}
+                  <span onClick={handleToLoginForm}>авторизации</span>
+                </S.BackToLoginText>
+              )}
             </S.BackToLoginBlock>
           )}
         </S.ModalForm>

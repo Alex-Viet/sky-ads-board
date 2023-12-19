@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { useParams } from 'react-router-dom';
+import { LoaderMarginContainer } from '../../App.styles';
 import { Loader } from '../../components/loader/Loader';
 import { ShowPhoneNumButton } from '../../components/phone-num-button/ShowPhoneNumButton';
 import { useGetAdsQuery } from '../../services/ads';
@@ -19,7 +20,9 @@ export const AdvPage = () => {
   return (
     <>
       {isLoading ? (
-        <Loader />
+        <LoaderMarginContainer>
+          <Loader />
+        </LoaderMarginContainer>
       ) : isError ? (
         <h2>Ошибка: {error?.error}</h2>
       ) : (

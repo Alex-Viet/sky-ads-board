@@ -18,17 +18,13 @@ export const AppRoutes = () => {
 
       <Route path="/" element={<Layout />}>
         <Route index element={<MainPage />} />
-        <Route
-          path="/profile"
-          element={
-            <ProtectedRoute isAllowed={Boolean(user)}>
-              <Profile />
-            </ProtectedRoute>
-          }
-        />
         <Route path="/seller-profile" element={<SellerProfile />} />
         <Route path="/ad/:id" element={<AdvPage />} />
         <Route path="/my-ad" element={<MyAdvPage />} />
+
+        <Route element={<ProtectedRoute isAllowed={Boolean(user)} />}>
+          <Route path="/profile" element={<Profile />} />
+        </Route>
       </Route>
 
       <Route path="*" element={<NotFoundPage />} />
