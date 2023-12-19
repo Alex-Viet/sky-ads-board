@@ -38,10 +38,14 @@ export const ModalLogo = styled.div`
   }
 `;
 
-export const ModalForm = styled.form``;
+export const ModalForm = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+`;
 
 export const ModalInput = styled.input`
-  width: 100%;
+  width: 278px;
   border-bottom: 1px solid #d0cece;
   padding: 8px 1px;
   margin-bottom: 38px;
@@ -81,5 +85,24 @@ export const ModalButtonRegister = styled.button`
 
   &:hover {
     background-color: #f4f5f6;
+  }
+`;
+
+export const BackToLoginBlock = styled.div`
+  display: flex;
+  justify-content: center;
+  margin-top: 20px;
+`;
+
+export const BackToLoginText = styled.p`
+  font-size: 14px;
+
+  & span {
+    text-decoration: underline;
+    cursor: pointer;
+
+    &:hover {
+      color: #ff6163;
+    }
   }
 `;

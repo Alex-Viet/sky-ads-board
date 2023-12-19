@@ -58,6 +58,7 @@ export const CarouselBarImg = styled.div`
   background-color: #f0f0f0;
   border: 2px solid #f0f0f0;
   margin: 0 5px;
+  cursor: pointer;
 
   & img {
     width: 100%;
@@ -143,6 +144,7 @@ export const AuthorName = styled.p`
   font-size: 20px;
   line-height: 130%;
   color: #009ee4;
+  cursor: pointer;
 `;
 
 export const AuthorAbout = styled.p`

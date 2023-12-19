@@ -4,12 +4,19 @@ import { useGetAdsQuery } from '../../services/ads';
 import * as S from './MainPage.styles';
 
 export const MainPage = () => {
-  const { data = [], isLoading, isError } = useGetAdsQuery();
+  const { data = [], isLoading, isError, error } = useGetAdsQuery();
+
+  // console.log(data);
 
   return (
     <>
       <S.MainTitle>Объявления</S.MainTitle>
-      <Cards data={data} />
+      <Cards
+        data={data}
+        isLoading={isLoading}
+        isError={isError}
+        error={error}
+      />
     </>
   );
 };

@@ -91,6 +91,10 @@ export const MainContainer = styled.div`
   padding: 4px 10px 30px;
 `;
 
+export const LoaderMarginContainer = styled.div`
+  margin-top: 100px;
+`;
+
 // Переиспользуемые компоненты кнопок и заголовков
 export const Button = css`
   color: #ffffff;
