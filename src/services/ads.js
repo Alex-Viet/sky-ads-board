@@ -1,17 +1,27 @@
-import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
+import { createApi } from '@reduxjs/toolkit/query/react';
+import { baseQueryWithReauth } from './users';
+
+const ADS_TAG = { type: 'Ads', id: 'LIST' };
 
 export const adsApi = createApi({
   reducerPath: 'AdsApi',
-  baseQuery: fetchBaseQuery({
-    baseUrl: 'http://127.0.0.1:8090/',
-  }),
+  baseQuery: baseQueryWithReauth,
   endpoints: (build) => ({
     getAds: build.query({
       query: () => ({
-        url: 'ads',
+        url: '/ads',
+      }),
+      providesTags: (result) =>
+        result
+          ? [...result.map(({ id }) => ({ type: ADS_TAG.type, id })), ADS_TAG]
+          : [ADS_TAG],
+    }),
+    getCurrentUserAds: build.query({
+      query: (user_id) => ({
+        url: `/ads/?user_id=${user_id}`,
       }),
     }),
   }),
 });
 
-export const { useGetAdsQuery } = adsApi;
+export const { useGetAdsQuery, useGetCurrentUserAdsQuery } = adsApi;

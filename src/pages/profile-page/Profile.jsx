@@ -1,34 +1,71 @@
+import { useEffect } from 'react';
+import { useState } from 'react';
+import { useLocation, useParams } from 'react-router-dom';
+import { LoaderMarginContainer } from '../../App.styles';
 import { Cards } from '../../components/cards/Cards';
+import { Loader } from '../../components/loader/Loader';
 import { ShowPhoneNumButton } from '../../components/phone-num-button/ShowPhoneNumButton';
+import { useGetCurrentUserAdsQuery } from '../../services/ads';
+import { formatDate } from '../../utils/getDate';
+import { baseUrl } from '../adv-page/AdvPage';
 import * as S from './Profile.styles';
 
 export const Profile = () => {
-  const seller = false;
-  return (
+  const [isSellerProfile, setSellerProfile] = useState(false);
+
+  const { pathname } = useLocation();
+
+  useEffect(() => {
+    pathname.includes('seller')
+      ? setSellerProfile(true)
+      : setSellerProfile(false);
+  }, []);
+
+  const { id } = useParams();
+  const {
+    data = [],
+    isLoading,
+    isError,
+    error,
+  } = useGetCurrentUserAdsQuery(id);
+
+  const userData = data[0]?.user;
+
+  return isLoading ? (
+    <LoaderMarginContainer>
+      <Loader />
+    </LoaderMarginContainer>
+  ) : isError ? (
+    <h2>Ошибка: {error?.error}</h2>
+  ) : (
     <>
       <S.ProfileContainer>
         <S.ProfileTitle>
-          {seller ? 'Профиль продавца' : 'Здравствуйте, Антон!'}
+          {isSellerProfile ? 'Профиль продавца' : 'Здравствуйте, Антон!'}
         </S.ProfileTitle>
 
         <S.Profile>
           <S.ProfileContent>
-            {!seller && <S.ProfileHeading>Настройки профиля</S.ProfileHeading>}
+            {!isSellerProfile && (
+              <S.ProfileHeading>Настройки профиля</S.ProfileHeading>
+            )}
             <S.ProfileSettings>
               <S.SettingsLeft>
                 <S.SettingsAvatar>
                   <a href="#" target="_self">
-                    <img src="#" alt="" />
+                    {userData?.avatar && (
+                      <img src={baseUrl + userData.avatar} alt="" />
+                    )}
                   </a>
                 </S.SettingsAvatar>
-                {!seller && (
+                {!isSellerProfile && (
                   <S.SettingsChangeAvatar href="#" target="_self">
                     Заменить
                   </S.SettingsChangeAvatar>
                 )}
               </S.SettingsLeft>
               <S.SettingsRight>
-                {!seller && (
+                {!isSellerProfile && (
                   <S.SettingsForm>
                     <S.SettingsInputContainer>
                       <label htmlFor="fname">Имя</label>
@@ -69,11 +106,11 @@ export const Profile = () => {
                     <S.SettingsButton>Сохранить</S.SettingsButton>
                   </S.SettingsForm>
                 )}
-                {seller && (
+                {isSellerProfile && (
                   <S.SellerInfoContainer>
-                    <p>Кирилл Матвеев</p>
-                    <p>Санкт-Петербург</p>
-                    <p>Продает товары с августа 2021</p>
+                    <p>{userData?.name}</p>
+                    <p>{userData?.city}</p>
+                    <p>Продает товары с {formatDate(userData?.sells_from)}</p>
 
                     <div className="seller__img-mob-block">
                       <div
@@ -85,7 +122,7 @@ export const Profile = () => {
                         </a>
                       </div>
 
-                      <ShowPhoneNumButton />
+                      <ShowPhoneNumButton phone={userData?.phone} />
                     </div>
                   </S.SellerInfoContainer>
                 )}
@@ -96,9 +133,9 @@ export const Profile = () => {
       </S.ProfileContainer>
       <S.CardsContainer>
         <S.ProfileHeading>
-          {seller ? 'Товары продавца' : 'Мои товары'}
+          {isSellerProfile ? 'Товары продавца' : 'Мои товары'}
         </S.ProfileHeading>
-        <Cards />
+        <Cards data={data} isError={isError} error={error} />
       </S.CardsContainer>
     </>
   );

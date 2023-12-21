@@ -6,8 +6,6 @@ import * as S from './MainPage.styles';
 export const MainPage = () => {
   const { data = [], isLoading, isError, error } = useGetAdsQuery();
 
-  // console.log(data);
-
   return (
     <>
       <S.MainTitle>Объявления</S.MainTitle>

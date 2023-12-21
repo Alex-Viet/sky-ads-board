@@ -5,11 +5,15 @@ export const formatDate = (date) => {
     return '';
   } else {
     if (date.indexOf('T') === -1) {
-      return dateObj.toLocaleString('ru', {
-        year: 'numeric',
-        month: 'long',
-        day: 'numeric',
-      });
+      const localDate = dateObj
+        .toLocaleString('ru', {
+          year: 'numeric',
+          month: 'long',
+          day: 'numeric',
+        })
+        .split(' ');
+
+      return localDate[1] + ' ' + localDate[2];
     } else {
       return dateObj.toLocaleString('ru', {
         year: 'numeric',

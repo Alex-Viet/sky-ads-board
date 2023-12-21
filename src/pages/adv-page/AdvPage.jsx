@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { useParams } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
 import { LoaderMarginContainer } from '../../App.styles';
 import { Loader } from '../../components/loader/Loader';
 import { ShowPhoneNumButton } from '../../components/phone-num-button/ShowPhoneNumButton';
@@ -96,7 +96,9 @@ export const AdvPage = () => {
                       )}
                     </S.AuthorImg>
                     <S.AuthorInfo>
-                      <S.AuthorName>{actualAd?.user?.name}</S.AuthorName>
+                      <Link to={`/seller-profile/${actualAd?.user_id}`}>
+                        <S.AuthorName>{actualAd?.user?.name}</S.AuthorName>
+                      </Link>
                       <S.AuthorAbout>
                         Продает товары с{' '}
                         {formatDate(actualAd?.user?.sells_from)}

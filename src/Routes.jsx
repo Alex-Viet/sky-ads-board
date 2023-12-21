@@ -18,7 +18,7 @@ export const AppRoutes = () => {
 
       <Route path="/" element={<Layout />}>
         <Route index element={<MainPage />} />
-        <Route path="/seller-profile" element={<SellerProfile />} />
+        <Route path="/seller-profile/:id" element={<SellerProfile />} />
         <Route path="/ad/:id" element={<AdvPage />} />
         <Route path="/my-ad" element={<MyAdvPage />} />
 

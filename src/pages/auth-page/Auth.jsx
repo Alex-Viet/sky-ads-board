@@ -1,10 +1,12 @@
 import { useState } from 'react';
+import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { Loader } from '../../components/loader/Loader';
 import {
   useGetTokensMutation,
   useRegisterUserMutation,
 } from '../../services/users';
+import { setAuth } from '../../store/slices/authSlice';
 import { trimSpaces } from '../../utils/stringHandlers';
 import * as S from './Auth.styles';
 
@@ -12,6 +14,7 @@ export const Auth = () => {
   const [isLoginMode, setLoginMode] = useState(true);
 
   const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   const [registerUser, { isLoading: regLoading }] = useRegisterUserMutation();
   const [getTokens, { isLoading }] = useGetTokensMutation();
@@ -58,6 +61,14 @@ export const Auth = () => {
           return;
         } else {
           localStorage.setItem('ads-board', JSON.stringify(tokensData.data));
+          dispatch(
+            setAuth({
+              email,
+              access: tokensData.data.access_token,
+              refresh: tokensData.data.refresh_token,
+            }),
+          );
+
           navigate('/', { replace: true });
         }
       });
@@ -82,6 +93,13 @@ export const Auth = () => {
         } else {
           getTokens({ email, password }).then((tokensData) => {
             localStorage.setItem('ads-board', JSON.stringify(tokensData.data));
+            dispatch(
+              setAuth({
+                email,
+                access: tokensData.data.access_token,
+                refresh: tokensData.data.refresh_token,
+              }),
+            );
           });
 
           navigate('/', { replace: true });
