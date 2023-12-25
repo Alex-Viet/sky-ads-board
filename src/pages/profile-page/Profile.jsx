@@ -32,6 +32,27 @@ export const Profile = ({ data, isLoading, isError, error, sellerData }) => {
   const [surname, setSurname] = useState('');
   const [city, setCity] = useState('');
   const [phone, setPhone] = useState('');
+  const [isFormChanged, setIsFormChanged] = useState(false);
+
+  const handleNameChange = (e) => {
+    setName(e.target.value.trim());
+    setIsFormChanged(true);
+  };
+
+  const handleSurnameChange = (e) => {
+    setSurname(e.target.value.trim());
+    setIsFormChanged(true);
+  };
+
+  const handleCityChange = (e) => {
+    setCity(e.target.value.trim());
+    setIsFormChanged(true);
+  };
+
+  const handlePhoneChange = (e) => {
+    setPhone(e.target.value.trim());
+    setIsFormChanged(true);
+  };
 
   if (!isSellerProfile) {
     useEffect(() => {
@@ -41,6 +62,7 @@ export const Profile = ({ data, isLoading, isError, error, sellerData }) => {
         setCity(userData.city);
         setPhone(userData.phone);
       }
+      setIsFormChanged(false);
     }, [userData]);
   }
 
@@ -67,6 +89,7 @@ export const Profile = ({ data, isLoading, isError, error, sellerData }) => {
         setPhone(userData.phone);
       });
 
+    setIsFormChanged(false);
     setEditMode(false);
   };
 
@@ -113,18 +136,18 @@ export const Profile = ({ data, isLoading, isError, error, sellerData }) => {
                             type="text"
                             placeholder="Введите имя"
                             defaultValue={name}
-                            onChange={(e) => setName(e.target.value)}
+                            onChange={handleNameChange}
                           />
                         </S.SettingsInputContainer>
 
                         <S.SettingsInputContainer>
-                          <label htmlFor="lname">Фамилия</label>
+                          <label htmlFor="surname">Фамилия</label>
                           <input
-                            name="lname"
+                            name="surname"
                             type="text"
                             placeholder="Введите фамилию"
                             defaultValue={surname}
-                            onChange={(e) => setSurname(e.target.value)}
+                            onChange={handleSurnameChange}
                           />
                         </S.SettingsInputContainer>
 
@@ -135,7 +158,7 @@ export const Profile = ({ data, isLoading, isError, error, sellerData }) => {
                             type="text"
                             placeholder="Введите город"
                             defaultValue={city}
-                            onChange={(e) => setCity(e.target.value)}
+                            onChange={handleCityChange}
                           />
                         </S.SettingsInputContainer>
 
@@ -146,12 +169,19 @@ export const Profile = ({ data, isLoading, isError, error, sellerData }) => {
                             type="tel"
                             placeholder="Введите номер телефона"
                             defaultValue={phone}
-                            onChange={(e) => setPhone(e.target.value)}
+                            onChange={handlePhoneChange}
                           />
                         </S.SettingsInputContainer>
 
-                        <S.SettingsButton onClick={handleSaveChanges}>
+                        <S.SettingsButton
+                          disabled={!isFormChanged}
+                          $disabled={!isFormChanged}
+                          onClick={handleSaveChanges}
+                        >
                           Сохранить
+                        </S.SettingsButton>
+                        <S.SettingsButton onClick={() => setEditMode(false)}>
+                          Назад
                         </S.SettingsButton>
                       </>
                     ) : (

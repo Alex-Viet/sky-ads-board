@@ -127,6 +127,11 @@ export const SettingsButton = styled.button`
   font-size: 16px;
   line-height: 1;
   margin: 10px 7px 0;
+  background-color: ${(props) => (props.$disabled ? '#afb3ba' : '')};
+
+  &:hover {
+    background-color: ${(props) => (props.$disabled ? '#afb3ba' : '')};
+  }
 `;
 
 export const CardsContainer = styled.div`
