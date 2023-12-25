@@ -65,7 +65,7 @@ export const SettingsRight = styled.div`
   width: 630px;
 `;
 
-export const SettingsForm = styled.form`
+export const SettingsForm = styled.div`
   width: 630px;
   display: flex;
   flex-wrap: wrap;
@@ -100,12 +100,23 @@ export const SettingsForm = styled.form`
 export const SettingsInputContainer = styled.div`
   display: inline-block;
   margin: 0 7px 25px;
+  input::-webkit-outer-spin-button,
+  input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+  }
 
   &:last-of-type {
     input {
       width: 614px;
+      -moz-appearance: textfield;
     }
   }
+`;
+
+export const ErrorText = styled.h3`
+  color: coral;
+  margin-top: 20px;
 `;
 
 export const SettingsButton = styled.button`
@@ -141,4 +152,9 @@ export const SellerInfoContainer = styled.div`
   & p:last-of-type {
     margin-bottom: 30px;
   }
+`;
+
+export const UserInfoContainer = styled(SellerInfoContainer)`
+  display: flex;
+  flex-direction: column;
 `;

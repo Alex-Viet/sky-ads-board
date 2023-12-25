@@ -1,6 +1,8 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 import { setAuth } from '../store/slices/authSlice';
 
+export const ADS_TAG = { type: 'Ads', id: 'LIST' };
+
 export const baseQueryWithReauth = async (args, api, extraOptions) => {
   const baseQuery = fetchBaseQuery({
     baseUrl: 'http://127.0.0.1:8090',
@@ -12,6 +14,8 @@ export const baseQueryWithReauth = async (args, api, extraOptions) => {
         headers.set('authorization', `Bearer ${token}`);
       }
 
+      console.log(headers);
+
       return headers;
     },
   });
@@ -20,27 +24,38 @@ export const baseQueryWithReauth = async (args, api, extraOptions) => {
   console.debug('Результат первого запроса', { result });
 
   if (result?.error?.status !== 401) {
+    console.log('Ошибка в result', result?.error?.status);
     return result;
   }
 
   const forceLogout = () => {
     console.debug('Принудительная авторизация!');
-    api.dispatch(setAuth(null));
+    api.dispatch(
+      setAuth({
+        email: null,
+        access: null,
+        refresh: null,
+        isAuth: false,
+      }),
+    );
+    localStorage.clear();
     window.location.assign('/auth');
   };
 
   const { auth } = api.getState();
   console.debug('Данные пользователя в сторе', { auth });
+
   if (!auth.refresh) {
     return forceLogout();
   }
 
   const refreshResult = await baseQuery(
     {
-      url: '/auth/login/',
+      url: '/auth/login',
       method: 'PUT',
       body: {
-        refresh: auth.refresh,
+        access_token: auth.access,
+        refresh_token: auth.refresh,
       },
     },
     api,
@@ -50,7 +65,7 @@ export const baseQueryWithReauth = async (args, api, extraOptions) => {
   console.debug('Результат запроса на обновление токена', { refreshResult });
 
   if (refreshResult?.error?.data) {
-    console.debug(refreshResult.error.data);
+    console.debug('Ошибка рефреша токена', refreshResult.error.data);
     return forceLogout();
   }
 
@@ -85,7 +100,25 @@ export const userApi = createApi({
         body: userData,
       }),
     }),
+    getCurrentUser: build.query({
+      query: (access) => ({
+        url: '/user',
+        headers: { Authorization: `Bearer ${access}` },
+      }),
+    }),
+    editUserProfile: build.mutation({
+      query: (userData) => ({
+        url: '/user',
+        method: 'PATCH',
+        body: userData,
+      }),
+    }),
   }),
 });
 
-export const { useRegisterUserMutation, useGetTokensMutation } = userApi;
+export const {
+  useRegisterUserMutation,
+  useGetTokensMutation,
+  useGetCurrentUserQuery,
+  useEditUserProfileMutation,
+} = userApi;

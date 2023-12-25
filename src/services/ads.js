@@ -1,7 +1,5 @@
 import { createApi } from '@reduxjs/toolkit/query/react';
-import { baseQueryWithReauth } from './users';
-
-const ADS_TAG = { type: 'Ads', id: 'LIST' };
+import { ADS_TAG, baseQueryWithReauth } from './users';
 
 export const adsApi = createApi({
   reducerPath: 'AdsApi',

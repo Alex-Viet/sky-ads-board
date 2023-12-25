@@ -66,10 +66,11 @@ export const Auth = () => {
               email,
               access: tokensData.data.access_token,
               refresh: tokensData.data.refresh_token,
+              isAuth: true,
             }),
           );
 
-          navigate('/', { replace: true });
+          navigate('/profile', { replace: true });
         }
       });
     } else {
@@ -98,11 +99,12 @@ export const Auth = () => {
                 email,
                 access: tokensData.data.access_token,
                 refresh: tokensData.data.refresh_token,
+                isAuth: true,
               }),
             );
           });
 
-          navigate('/', { replace: true });
+          navigate('/profile', { replace: true });
         }
       });
     }

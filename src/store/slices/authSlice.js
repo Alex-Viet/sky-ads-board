@@ -1,6 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit';
 
-const AUTH_KEY = 'auth';
+const AUTH_KEY = 'auth-ads-board';
 
 function getAuthFromLocalStorage() {
   try {
@@ -11,9 +11,10 @@ function getAuthFromLocalStorage() {
 }
 
 const initialState = {
-  email: '',
-  access: '',
-  refresh: '',
+  email: null,
+  access: null,
+  refresh: null,
+  isAuth: false,
 };
 
 const authSlice = createSlice({
@@ -26,6 +27,7 @@ const authSlice = createSlice({
       state.email = payload.email;
       state.access = payload.access;
       state.refresh = payload.refresh;
+      state.isAuth = payload.isAuth;
 
       localStorage.setItem(AUTH_KEY, JSON.stringify(state));
     },
