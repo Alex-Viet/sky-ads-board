@@ -7,12 +7,18 @@ import {
   useGetCurrentUserQuery,
   useEditUserProfileMutation,
 } from '../../services/users';
+import { baseUrl } from '../adv-page/AdvPage';
 import * as S from './Profile.styles';
 
 export const Profile = () => {
   const [isEditMode, setEditMode] = useState(false);
 
-  const { data: userData = [], isLoading } = useGetCurrentUserQuery();
+  const {
+    data: userData = [],
+    isLoading,
+    isError,
+    error,
+  } = useGetCurrentUserQuery();
   const [editUserProfile] = useEditUserProfileMutation();
 
   const [name, setName] = useState('');
@@ -66,8 +72,6 @@ export const Profile = () => {
     })
       .unwrap()
       .then((userData) => {
-        console.log(userData);
-
         setName(userData.name);
         setSurname(userData.surname);
         setCity(userData.city);
@@ -78,10 +82,14 @@ export const Profile = () => {
     setEditMode(false);
   };
 
+  console.log(userData);
+
   return isLoading ? (
     <LoaderMarginContainer>
       <Loader />
     </LoaderMarginContainer>
+  ) : isError ? (
+    <h2>Ошибка: {error?.error}</h2>
   ) : (
     <>
       <S.ProfileContainer>
@@ -93,7 +101,9 @@ export const Profile = () => {
             <S.ProfileSettings>
               <S.SettingsLeft>
                 <S.SettingsAvatar>
-                  <img src="#" alt="" />
+                  {userData?.avatar && (
+                    <img src={baseUrl + userData.avatar} alt="" />
+                  )}
                 </S.SettingsAvatar>
                 <S.SettingsChangeAvatar href="#" target="_self">
                   Заменить
@@ -104,9 +114,9 @@ export const Profile = () => {
                   {isEditMode ? (
                     <>
                       <S.SettingsInputContainer>
-                        <label htmlFor="fname">Имя</label>
+                        <label htmlFor="name">Имя</label>
                         <input
-                          name="fname"
+                          name="name"
                           type="text"
                           placeholder="Введите имя"
                           defaultValue={name}

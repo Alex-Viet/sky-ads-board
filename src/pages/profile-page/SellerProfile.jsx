@@ -23,6 +23,8 @@ export const SellerProfile = () => {
     <LoaderMarginContainer>
       <Loader />
     </LoaderMarginContainer>
+  ) : isError ? (
+    <h2>Ошибка: {error?.error}</h2>
   ) : (
     <>
       <S.ProfileContainer>
@@ -64,7 +66,7 @@ export const SellerProfile = () => {
       </S.ProfileContainer>
       <S.CardsContainer>
         <S.ProfileHeading>Товары продавца</S.ProfileHeading>
-        <Cards data={data} isError={isError} error={error} />
+        <Cards data={data} />
       </S.CardsContainer>
     </>
   );
