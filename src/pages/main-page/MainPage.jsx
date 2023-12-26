@@ -8,8 +8,6 @@ import * as S from './MainPage.styles';
 export const MainPage = () => {
   const { data = [], isLoading, isError, error } = useGetAdsQuery();
 
-  console.log(isLoading);
-
   return isLoading ? (
     <LoaderMarginContainer>
       <Loader />

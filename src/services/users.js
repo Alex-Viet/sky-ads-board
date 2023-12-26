@@ -1,35 +1,22 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 import { setAuth } from '../store/slices/authSlice';
 
-export const ADS_TAG = { type: 'Ads', id: 'LIST' };
-
 export const baseQueryWithReauth = async (args, api, extraOptions) => {
   const baseQuery = fetchBaseQuery({
     baseUrl: 'http://127.0.0.1:8090',
     prepareHeaders: (headers, { getState }) => {
       const token = getState().auth.access;
-      console.debug('Использую токен из стора', { token });
-
+      // console.debug('Использую токен из стора', { token });
       if (token) {
         headers.set('authorization', `Bearer ${token}`);
       }
-
-      console.log(headers);
 
       return headers;
     },
   });
 
-  const result = await baseQuery(args, api, extraOptions);
-  console.debug('Результат первого запроса', { result });
-
-  if (result?.error?.status !== 401) {
-    console.log('Ошибка в result', result?.error?.status);
-    return result;
-  }
-
   const forceLogout = () => {
-    console.debug('Принудительная авторизация!');
+    // console.debug('Принудительная авторизация!');
     api.dispatch(
       setAuth({
         email: null,
@@ -42,48 +29,60 @@ export const baseQueryWithReauth = async (args, api, extraOptions) => {
     window.location.assign('/auth');
   };
 
+  const result = await baseQuery(args, api, extraOptions);
+  // console.debug('Результат первого запроса', { result });
+
   const { auth } = api.getState();
-  console.debug('Данные пользователя в сторе', { auth });
+  // console.debug('Данные пользователя в сторе', { auth });
 
-  if (!auth.refresh) {
-    return forceLogout();
-  }
-
-  const refreshResult = await baseQuery(
-    {
-      url: '/auth/login',
-      method: 'PUT',
-      body: {
-        access_token: auth.access,
-        refresh_token: auth.refresh,
+  const refreshToken = async () => {
+    const refreshResult = await baseQuery(
+      {
+        url: '/auth/login',
+        method: 'PUT',
+        body: {
+          access_token: auth.access,
+          refresh_token: auth.refresh,
+        },
       },
-    },
-    api,
-    extraOptions,
-  );
+      api,
+      extraOptions,
+    );
 
-  console.debug('Результат запроса на обновление токена', { refreshResult });
+    // console.debug('Результат запроса на обновление токена', { refreshResult });
+    if (refreshResult?.error?.status === 401) {
+      throw new Error('Failed to refresh token');
+    }
 
-  if (refreshResult?.error?.data) {
-    console.debug('Ошибка рефреша токена', refreshResult.error.data);
-    return forceLogout();
+    api.dispatch(
+      setAuth({
+        ...auth,
+        access: refreshResult.data.access_token,
+        refresh: refreshResult.data.refresh_token,
+      }),
+    );
+  };
+
+  if (result?.error?.status === 401) {
+    try {
+      await refreshToken();
+      const retryResult = await baseQuery(args, api, extraOptions);
+      // console.debug('Повторный запрос завершился успешно');
+
+      return retryResult;
+    } catch (refreshError) {
+      console.error(refreshError);
+      forceLogout();
+      throw new Error('Failed to refresh token');
+    }
   }
 
-  api.dispatch(setAuth({ ...auth, access: refreshResult.data.access }));
-
-  const retryResult = await baseQuery(args, api, extraOptions);
-
-  if (retryResult?.error?.status === 401) {
-    return forceLogout();
-  }
-
-  console.debug('Повторный запрос завершился успешно');
-
-  return retryResult;
+  return result;
 };
 
 export const userApi = createApi({
   reducerPath: 'userApi',
+  tagTypes: ['User'],
   baseQuery: baseQueryWithReauth,
   endpoints: (build) => ({
     registerUser: build.mutation({
@@ -105,6 +104,7 @@ export const userApi = createApi({
         url: '/user',
         headers: { Authorization: `Bearer ${access}` },
       }),
+      providesTags: ['User'],
     }),
     editUserProfile: build.mutation({
       query: (userData) => ({
@@ -112,6 +112,7 @@ export const userApi = createApi({
         method: 'PATCH',
         body: userData,
       }),
+      invalidatesTags: ['User'],
     }),
   }),
 });

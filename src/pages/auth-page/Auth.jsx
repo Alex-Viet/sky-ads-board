@@ -47,32 +47,31 @@ export const Auth = () => {
       return;
     }
 
-    if (password.length < 3) {
-      setError('Пароль должен содержать не менее 3 символов');
+    if (password.length < 6) {
+      setError('Пароль должен содержать не менее 6 символов');
       return;
     }
 
     if (isLoginMode) {
       // Авторизация
 
-      await getTokens({ email, password }).then((tokensData) => {
-        if (tokensData.error?.status === 401) {
-          setError('Неправильный пароль');
-          return;
-        } else {
-          localStorage.setItem('ads-board', JSON.stringify(tokensData.data));
-          dispatch(
-            setAuth({
-              email,
-              access: tokensData.data.access_token,
-              refresh: tokensData.data.refresh_token,
-              isAuth: true,
-            }),
-          );
+      const tokensData = await getTokens({ email, password });
+      if (tokensData.error?.status === 401) {
+        setError('Неправильный пароль');
+        return;
+      }
 
-          navigate('/profile', { replace: true });
-        }
-      });
+      localStorage.setItem('ads-board', JSON.stringify(tokensData.data));
+      dispatch(
+        setAuth({
+          email,
+          access: tokensData.data.access_token,
+          refresh: tokensData.data.refresh_token,
+          isAuth: true,
+        }),
+      );
+
+      navigate('/profile', { replace: true });
     } else {
       if (password !== repeatPass) {
         setError('Пароли не совпадают');
@@ -80,33 +79,36 @@ export const Auth = () => {
       }
 
       // Регистрация
-      await registerUser({
-        email,
-        password,
-        name: trimSpaces(name),
-        surname: trimSpaces(surname),
-        city: trimSpaces(city),
-        role: 'user',
-      }).then((userData) => {
+      try {
+        const userData = await registerUser({
+          email,
+          password,
+          name: trimSpaces(name),
+          surname: trimSpaces(surname),
+          city: trimSpaces(city),
+          role: 'user',
+        });
+
         if (userData.error?.status === 400) {
           setError('Пользователь с таким email уже существует');
           return;
-        } else {
-          getTokens({ email, password }).then((tokensData) => {
-            localStorage.setItem('ads-board', JSON.stringify(tokensData.data));
-            dispatch(
-              setAuth({
-                email,
-                access: tokensData.data.access_token,
-                refresh: tokensData.data.refresh_token,
-                isAuth: true,
-              }),
-            );
-          });
-
-          navigate('/profile', { replace: true });
         }
-      });
+
+        const tokensData = await getTokens({ email, password });
+        localStorage.setItem('ads-board', JSON.stringify(tokensData.data));
+        dispatch(
+          setAuth({
+            email,
+            access: tokensData.data.access_token,
+            refresh: tokensData.data.refresh_token,
+            isAuth: true,
+          }),
+        );
+
+        navigate('/profile', { replace: true });
+      } catch (error) {
+        console.error(error);
+      }
     }
   };
 

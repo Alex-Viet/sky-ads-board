@@ -82,8 +82,6 @@ export const Profile = () => {
     setEditMode(false);
   };
 
-  console.log(userData);
-
   return isLoading ? (
     <LoaderMarginContainer>
       <Loader />
