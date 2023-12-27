@@ -205,5 +205,10 @@ export const FormNewAdButtonPublish = styled.button`
   font-style: normal;
   line-height: 150%;
   padding: 13px 37px;
-  margin-top: 10px;
+  margin-top: 20px;
+  background-color: ${(props) => (props.$disabled ? '#afb3ba' : '')};
+
+  &:hover {
+    background-color: ${(props) => (props.$disabled ? '#afb3ba' : '')};
+  }
 `;

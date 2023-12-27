@@ -8,7 +8,7 @@ import {
   useEditUserProfileMutation,
   useUploadUserAvatarMutation,
 } from '../../services/users';
-import { useGetUserAdsQuery } from '../../services/users';
+import { useGetUserAdsQuery } from '../../services/ads';
 import { baseUrl } from '../adv-page/AdvPage';
 import * as S from './Profile.styles';
 
@@ -95,7 +95,7 @@ export const Profile = () => {
 
   const [uploadUserAvatar] = useUploadUserAvatarMutation();
 
-  const uploadAvatar = (evt) => {
+  const uploadAvatar = async (evt) => {
     evt.preventDefault();
     const file = evt.target.files[0];
     if (!file?.type?.includes('image')) {
@@ -105,7 +105,7 @@ export const Profile = () => {
 
     const formData = new FormData();
     formData.append('file', file);
-    uploadUserAvatar(formData);
+    await uploadUserAvatar(formData).unwrap();
     setTypeError(null);
   };
 

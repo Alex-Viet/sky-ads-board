@@ -1,6 +1,8 @@
+import { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { setAuth } from '../../store/slices/authSlice';
+import { AddNewAd } from '../modals/AddNewAd';
 import * as S from './Header.styles';
 
 export const Header = () => {
@@ -20,10 +22,16 @@ export const Header = () => {
     localStorage.clear();
   };
 
+  const [isAddNewAdPopupOpen, setAddNewAdPopupOpen] = useState(false);
+
   return (
     <S.Header>
       <S.HeaderNav>
-        <S.HeaderButton>Разместить объявление</S.HeaderButton>
+        {user && (
+          <S.HeaderButton onClick={() => setAddNewAdPopupOpen(true)}>
+            Разместить объявление
+          </S.HeaderButton>
+        )}
         <S.HeaderButton
           onClick={() => {
             user ? navigate('/profile') : navigate('/auth');
@@ -33,6 +41,9 @@ export const Header = () => {
         </S.HeaderButton>
         {user && <S.HeaderButton onClick={logout}>Выйти</S.HeaderButton>}
       </S.HeaderNav>
+      {isAddNewAdPopupOpen && (
+        <AddNewAd setAddNewAdPopupOpen={setAddNewAdPopupOpen} />
+      )}
     </S.Header>
   );
 };

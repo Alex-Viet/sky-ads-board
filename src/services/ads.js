@@ -5,6 +5,7 @@ export const ADS_TAG = { type: 'Ads', id: 'LIST' };
 
 export const adsApi = createApi({
   reducerPath: 'AdsApi',
+  tagTypes: ['Ads'],
   baseQuery: baseQueryWithReauth,
   endpoints: (build) => ({
     getAds: build.query({
@@ -20,8 +21,28 @@ export const adsApi = createApi({
       query: (user_id) => ({
         url: `/ads/?user_id=${user_id}`,
       }),
+      providesTags: ['Ads'],
+    }),
+    addNewTextOnlyAd: build.mutation({
+      query: (data) => ({
+        url: '/adstext',
+        method: 'POST',
+        body: data,
+      }),
+      invalidatesTags: ['Ads'],
+    }),
+    getUserAds: build.query({
+      query: () => ({
+        url: '/ads/me',
+      }),
+      providesTags: ['Ads'],
     }),
   }),
 });
 
-export const { useGetAdsQuery, useGetCurrentUserAdsQuery } = adsApi;
+export const {
+  useGetAdsQuery,
+  useGetCurrentUserAdsQuery,
+  useAddNewTextOnlyAdMutation,
+  useGetUserAdsQuery,
+} = adsApi;

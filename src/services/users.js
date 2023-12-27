@@ -124,12 +124,6 @@ export const userApi = createApi({
       }),
       invalidatesTags: ['User'],
     }),
-    getUserAds: build.query({
-      query: () => ({
-        url: '/ads/me',
-      }),
-      providesTags: ['User'],
-    }),
   }),
 });
 
@@ -139,5 +133,4 @@ export const {
   useGetCurrentUserQuery,
   useEditUserProfileMutation,
   useUploadUserAvatarMutation,
-  useGetUserAdsQuery,
 } = userApi;

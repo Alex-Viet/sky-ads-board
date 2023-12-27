@@ -1,10 +1,58 @@
 import { useState } from 'react';
+import { useAddNewTextOnlyAdMutation } from '../../services/ads';
 import { ModalCloseButton } from '../modal-close-button/ModalCloseButton';
 import * as S from './AddNewAd.styles';
 
-export const AddNewAd = () => {
-  const [disableButton] = useState(true);
-  const editMode = false;
+export const AddNewAd = ({ setAddNewAdPopupOpen }) => {
+  const [editMode, setEditMode] = useState(false);
+
+  const [title, setTitle] = useState('');
+  const [description, setDescription] = useState('');
+  const [price, setPrice] = useState('');
+  const [isFormChanged, setIsFormChanged] = useState(false);
+  const [error, setError] = useState(null);
+
+  const handleTitleChange = (e) => {
+    setTitle(e.target.value.trim());
+    setIsFormChanged(true);
+  };
+
+  const handleDescriptionChange = (e) => {
+    setDescription(e.target.value.trim());
+    setIsFormChanged(true);
+  };
+
+  const handlePriceChange = (e) => {
+    setPrice(e.target.value.trim());
+    setIsFormChanged(true);
+  };
+
+  const [addNewTextOnlyAd] = useAddNewTextOnlyAdMutation();
+
+  const handleAddNewAd = async (e) => {
+    e.preventDefault();
+
+    if (!title) {
+      setError('Введите название');
+      return;
+    }
+
+    if (!price) {
+      setError('Введите цену');
+      return;
+    }
+
+    const adData = {
+      title,
+      description,
+      price,
+    };
+
+    await addNewTextOnlyAd(adData).unwrap();
+    setIsFormChanged(false);
+    setError(null);
+    setAddNewAdPopupOpen(false);
+  };
 
   return (
     <S.Wrapper>
@@ -14,15 +62,16 @@ export const AddNewAd = () => {
             <S.ModalHeading>
               {editMode ? 'Редактировать объявление' : 'Новое объявление'}
             </S.ModalHeading>
-            <ModalCloseButton />
+            <ModalCloseButton setPopupOpen={setAddNewAdPopupOpen} />
             <S.FormNewAd id="#" action="#">
               <S.FormNewAdBlock>
-                <label htmlFor="name">Название</label>
+                <label htmlFor="title">Название</label>
                 <input
                   type="text"
-                  name="name"
+                  name="title"
                   placeholder="Введите название"
                   required
+                  onChange={handleTitleChange}
                 />
               </S.FormNewAdBlock>
               <S.FormNewAdBlock>
@@ -32,7 +81,7 @@ export const AddNewAd = () => {
                   cols="auto"
                   rows="10"
                   placeholder="Введите описание"
-                  required
+                  onChange={handleDescriptionChange}
                 ></textarea>
               </S.FormNewAdBlock>
               <S.FormNewAdBlock>
@@ -64,11 +113,20 @@ export const AddNewAd = () => {
               </S.FormNewAdBlock>
               <S.FormNewAdBlock>
                 <label htmlFor="price">Цена</label>
-                <input type="number" name="price" required />
+                <input
+                  type="number"
+                  name="price"
+                  required
+                  onChange={handlePriceChange}
+                />
                 <S.FormNewAdPriceCover></S.FormNewAdPriceCover>
               </S.FormNewAdBlock>
-
-              <S.FormNewAdButtonPublish $disable={disableButton}>
+              {error && <p style={{ color: 'coral' }}>{error}</p>}
+              <S.FormNewAdButtonPublish
+                disabled={!isFormChanged}
+                $disabled={!isFormChanged}
+                onClick={handleAddNewAd}
+              >
                 Опубликовать
               </S.FormNewAdButtonPublish>
             </S.FormNewAd>
