@@ -46,19 +46,32 @@ export const SettingsAvatar = styled.div`
 
   & img {
     width: 100%;
-    height: auto;
+    height: 100%;
     display: block;
     object-fit: cover;
+    border-radius: inherit;
   }
 `;
 
-export const SettingsChangeAvatar = styled.a`
-  margin-top: 10px;
-  margin-bottom: 30px;
-  text-decoration: none;
+export const SettingsChangeAvatarLabel = styled.label`
+  position: relative;
+  display: inline-block;
   font-size: 16px;
   line-height: 24px;
   color: #009ee4;
+  cursor: pointer;
+  margin: 10px 0 30px 0;
+
+  &:hover {
+    color: #ff6163;
+  }
+
+  & input {
+    width: 2px;
+    position: absolute;
+    z-index: -1;
+    opacity: 0;
+  }
 `;
 
 export const SettingsRight = styled.div`
@@ -162,4 +175,9 @@ export const SellerInfoContainer = styled.div`
 export const UserInfoContainer = styled(SellerInfoContainer)`
   display: flex;
   flex-direction: column;
+`;
+
+export const TypeErrorText = styled.h3`
+  color: red;
+  margin-bottom: 20px;
 `;

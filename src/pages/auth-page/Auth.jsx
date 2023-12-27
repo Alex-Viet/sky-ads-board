@@ -47,8 +47,8 @@ export const Auth = () => {
       return;
     }
 
-    if (password.length < 6) {
-      setError('Пароль должен содержать не менее 6 символов');
+    if (password.length < 3) {
+      setError('Пароль должен содержать не менее 3 символов');
       return;
     }
 

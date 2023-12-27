@@ -91,6 +91,7 @@ export const userApi = createApi({
         method: 'POST',
         body: userData,
       }),
+      providesTags: ['User'],
     }),
     getTokens: build.mutation({
       query: (userData) => ({
@@ -98,6 +99,7 @@ export const userApi = createApi({
         method: 'POST',
         body: userData,
       }),
+      providesTags: ['User'],
     }),
     getCurrentUser: build.query({
       query: (access) => ({
@@ -114,6 +116,14 @@ export const userApi = createApi({
       }),
       invalidatesTags: ['User'],
     }),
+    uploadUserAvatar: build.mutation({
+      query: (img) => ({
+        url: '/user/avatar',
+        method: 'POST',
+        body: img,
+      }),
+      invalidatesTags: ['User'],
+    }),
   }),
 });
 
@@ -122,4 +132,5 @@ export const {
   useGetTokensMutation,
   useGetCurrentUserQuery,
   useEditUserProfileMutation,
+  useUploadUserAvatarMutation,
 } = userApi;

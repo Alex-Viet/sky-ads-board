@@ -21,6 +21,11 @@ export const adsApi = createApi({
         url: `/ads/?user_id=${user_id}`,
       }),
     }),
+    // getUserAds: build.query({
+    //   query: () => ({
+    //     url: '/ads/me',
+    //   }),
+    // }),
   }),
 });
 

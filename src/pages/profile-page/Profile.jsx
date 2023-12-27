@@ -1,12 +1,14 @@
 import { useEffect } from 'react';
 import { useState } from 'react';
 import { LoaderMarginContainer } from '../../App.styles';
-import { Cards } from '../../components/cards/Cards';
+// import { Cards } from '../../components/cards/Cards';
 import { Loader } from '../../components/loader/Loader';
 import {
   useGetCurrentUserQuery,
   useEditUserProfileMutation,
+  useUploadUserAvatarMutation,
 } from '../../services/users';
+// import { useGetUserAdsQuery } from '../../services/ads';
 import { baseUrl } from '../adv-page/AdvPage';
 import * as S from './Profile.styles';
 
@@ -82,6 +84,31 @@ export const Profile = () => {
     setEditMode(false);
   };
 
+  // const {
+  //   data = [],
+  //   isLoading: adsLoading,
+  //   isError: isAdsError,
+  //   error: adsError,
+  // } = useGetUserAdsQuery();
+
+  const [typeError, setTypeError] = useState(null);
+
+  const [uploadUserAvatar] = useUploadUserAvatarMutation();
+
+  const uploadAvatar = (evt) => {
+    evt.preventDefault();
+    const file = evt.target.files[0];
+    if (!file?.type?.includes('image')) {
+      setTypeError('Неправильный формат изображения');
+      return;
+    }
+
+    const formData = new FormData();
+    formData.append('file', file);
+    uploadUserAvatar(formData);
+    setTypeError(null);
+  };
+
   return isLoading ? (
     <LoaderMarginContainer>
       <Loader />
@@ -96,6 +123,7 @@ export const Profile = () => {
         <S.Profile>
           <S.ProfileContent>
             <S.ProfileHeading>Настройки профиля</S.ProfileHeading>
+            {typeError && <S.TypeErrorText>{typeError}</S.TypeErrorText>}
             <S.ProfileSettings>
               <S.SettingsLeft>
                 <S.SettingsAvatar>
@@ -103,9 +131,13 @@ export const Profile = () => {
                     <img src={baseUrl + userData.avatar} alt="" />
                   )}
                 </S.SettingsAvatar>
-                <S.SettingsChangeAvatar href="#" target="_self">
+                <S.SettingsChangeAvatarLabel
+                  htmlFor="avatar"
+                  onChange={uploadAvatar}
+                >
                   Заменить
-                </S.SettingsChangeAvatar>
+                  <input id="avatar" type="file" accept="image/*" />
+                </S.SettingsChangeAvatarLabel>
               </S.SettingsLeft>
               <S.SettingsRight>
                 <S.SettingsForm>
@@ -186,7 +218,11 @@ export const Profile = () => {
       </S.ProfileContainer>
       <S.CardsContainer>
         <S.ProfileHeading>Мои товары</S.ProfileHeading>
-        <Cards />
+        {/* {isAdsError ? (
+          <h2>Ошибка: {adsError}</h2>
+        ) : (
+          !adsLoading && <Cards data={data} />
+        )} */}
       </S.CardsContainer>
     </>
   );
