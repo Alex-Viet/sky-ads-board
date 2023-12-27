@@ -1,3 +1,4 @@
+import { useSelector } from 'react-redux';
 import { Route, Routes } from 'react-router-dom';
 import { MainPage } from './pages/main-page/MainPage';
 import { Profile } from './pages/profile-page/Profile';
@@ -10,7 +11,7 @@ import { ProtectedRoute } from './components/protected-route/ProtectedRoute';
 import { NotFoundPage } from './pages/not-found-page/NotFoundPage';
 
 export const AppRoutes = () => {
-  const user = localStorage.getItem('ads-board');
+  const user = useSelector((state) => state.auth.isAuth);
 
   return (
     <Routes>

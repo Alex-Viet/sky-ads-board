@@ -1,14 +1,14 @@
 import { useEffect } from 'react';
 import { useState } from 'react';
 import { LoaderMarginContainer } from '../../App.styles';
-// import { Cards } from '../../components/cards/Cards';
+import { Cards } from '../../components/cards/Cards';
 import { Loader } from '../../components/loader/Loader';
 import {
   useGetCurrentUserQuery,
   useEditUserProfileMutation,
   useUploadUserAvatarMutation,
 } from '../../services/users';
-// import { useGetUserAdsQuery } from '../../services/ads';
+import { useGetUserAdsQuery } from '../../services/users';
 import { baseUrl } from '../adv-page/AdvPage';
 import * as S from './Profile.styles';
 
@@ -84,12 +84,12 @@ export const Profile = () => {
     setEditMode(false);
   };
 
-  // const {
-  //   data = [],
-  //   isLoading: adsLoading,
-  //   isError: isAdsError,
-  //   error: adsError,
-  // } = useGetUserAdsQuery();
+  const {
+    data = [],
+    isLoading: adsLoading,
+    isError: isAdsError,
+    error: adsError,
+  } = useGetUserAdsQuery();
 
   const [typeError, setTypeError] = useState(null);
 
@@ -131,13 +131,15 @@ export const Profile = () => {
                     <img src={baseUrl + userData.avatar} alt="" />
                   )}
                 </S.SettingsAvatar>
-                <S.SettingsChangeAvatarLabel
-                  htmlFor="avatar"
-                  onChange={uploadAvatar}
-                >
-                  Заменить
-                  <input id="avatar" type="file" accept="image/*" />
-                </S.SettingsChangeAvatarLabel>
+                {isEditMode && (
+                  <S.SettingsChangeAvatarLabel
+                    htmlFor="avatar"
+                    onChange={uploadAvatar}
+                  >
+                    Заменить
+                    <input id="avatar" type="file" accept="image/*" />
+                  </S.SettingsChangeAvatarLabel>
+                )}
               </S.SettingsLeft>
               <S.SettingsRight>
                 <S.SettingsForm>
@@ -218,11 +220,11 @@ export const Profile = () => {
       </S.ProfileContainer>
       <S.CardsContainer>
         <S.ProfileHeading>Мои товары</S.ProfileHeading>
-        {/* {isAdsError ? (
+        {isAdsError ? (
           <h2>Ошибка: {adsError}</h2>
         ) : (
           !adsLoading && <Cards data={data} />
-        )} */}
+        )}
       </S.CardsContainer>
     </>
   );

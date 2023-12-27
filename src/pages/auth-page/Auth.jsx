@@ -47,6 +47,7 @@ export const Auth = () => {
       return;
     }
 
+    // При необходимости можно добавить валидацию пароля на различные символы
     if (password.length < 3) {
       setError('Пароль должен содержать не менее 3 символов');
       return;
@@ -61,7 +62,6 @@ export const Auth = () => {
         return;
       }
 
-      localStorage.setItem('ads-board', JSON.stringify(tokensData.data));
       dispatch(
         setAuth({
           email,
@@ -95,7 +95,6 @@ export const Auth = () => {
         }
 
         const tokensData = await getTokens({ email, password });
-        localStorage.setItem('ads-board', JSON.stringify(tokensData.data));
         dispatch(
           setAuth({
             email,

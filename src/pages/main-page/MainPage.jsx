@@ -2,7 +2,6 @@ import { LoaderMarginContainer } from '../../App.styles';
 import { Cards } from '../../components/cards/Cards';
 import { Loader } from '../../components/loader/Loader';
 import { useGetAdsQuery } from '../../services/ads';
-
 import * as S from './MainPage.styles';
 
 export const MainPage = () => {
