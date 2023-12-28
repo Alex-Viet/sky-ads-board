@@ -7,8 +7,8 @@ import {
   useGetCurrentUserQuery,
   useEditUserProfileMutation,
   useUploadUserAvatarMutation,
-} from '../../services/users';
-import { useGetUserAdsQuery } from '../../services/ads';
+  useGetUserAdsQuery,
+} from '../../services/ads';
 import { baseUrl } from '../adv-page/AdvPage';
 import * as S from './Profile.styles';
 

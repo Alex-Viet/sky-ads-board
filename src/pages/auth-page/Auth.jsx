@@ -5,7 +5,7 @@ import { Loader } from '../../components/loader/Loader';
 import {
   useGetTokensMutation,
   useRegisterUserMutation,
-} from '../../services/users';
+} from '../../services/ads';
 import { setAuth } from '../../store/slices/authSlice';
 import { trimSpaces } from '../../utils/stringHandlers';
 import * as S from './Auth.styles';
