@@ -196,7 +196,7 @@ export const FormNewAdPriceCover = styled.div`
   }
 `;
 
-export const FormNewAdButtonPublish = styled.button`
+export const FormNewAdPublishButton = styled.button`
   ${Button}
 
   width: 181px;

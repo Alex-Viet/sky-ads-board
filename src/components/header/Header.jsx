@@ -41,9 +41,7 @@ export const Header = () => {
         </S.HeaderButton>
         {user && <S.HeaderButton onClick={logout}>Выйти</S.HeaderButton>}
       </S.HeaderNav>
-      {isAddNewAdPopupOpen && (
-        <AddNewAd setAddNewAdPopupOpen={setAddNewAdPopupOpen} />
-      )}
+      {isAddNewAdPopupOpen && <AddNewAd setPopupOpen={setAddNewAdPopupOpen} />}
     </S.Header>
   );
 };

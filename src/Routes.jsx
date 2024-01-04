@@ -5,7 +5,6 @@ import { Profile } from './pages/profile-page/Profile';
 import { Layout } from './components/layout/Layout';
 import { AdvPage } from './pages/adv-page/AdvPage';
 import { SellerProfile } from './pages/profile-page/SellerProfile';
-import { MyAdvPage } from './pages/adv-page/MyAdvPage';
 import { Auth } from './pages/auth-page/Auth';
 import { ProtectedRoute } from './components/protected-route/ProtectedRoute';
 import { NotFoundPage } from './pages/not-found-page/NotFoundPage';
@@ -21,7 +20,6 @@ export const AppRoutes = () => {
         <Route index element={<MainPage />} />
         <Route path="/seller-profile/:id" element={<SellerProfile />} />
         <Route path="/ad/:id" element={<AdvPage />} />
-        <Route path="/my-ad" element={<MyAdvPage />} />
 
         <Route element={<ProtectedRoute isAllowed={Boolean(user)} />}>
           <Route path="/profile" element={<Profile />} />

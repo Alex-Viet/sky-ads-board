@@ -8,7 +8,10 @@ export const baseQueryWithReauth = async (args, api, extraOptions) => {
   const baseQuery = fetchBaseQuery({
     baseUrl: 'http://127.0.0.1:8090/',
     prepareHeaders: (headers, { getState }) => {
-      const token = getState().auth.access;
+      const token =
+        getState().auth.refresh ??
+        (JSON?.parse(localStorage.getItem('auth-ads-board'))?.refresh || []);
+
       console.debug('Использую токен из стора', { token });
       if (token) {
         headers.set('authorization', `Bearer ${token}`);
@@ -105,6 +108,12 @@ export const adsApi = createApi({
       }),
       providesTags: ['Ads'],
     }),
+    getAllUsers: build.query({
+      query: () => ({
+        url: 'user/all',
+      }),
+      providesTags: ['Ads'],
+    }),
     getCurrentUser: build.query({
       query: (access) => ({
         url: 'user',
@@ -128,6 +137,7 @@ export const adsApi = createApi({
       }),
       invalidatesTags: ['Ads'],
     }),
+
     //Ads
     getAds: build.query({
       query: () => ({
@@ -158,12 +168,21 @@ export const adsApi = createApi({
       }),
       providesTags: ['Ads'],
     }),
+    editAd: build.mutation({
+      query: ({ id, title, description, price }) => ({
+        url: `ads/${id}`,
+        method: 'PATCH',
+        body: { title, description, price },
+      }),
+      invalidatesTags: ['Ads'],
+    }),
   }),
 });
 
 export const {
   useRegisterUserMutation,
   useGetTokensMutation,
+  useGetAllUsersQuery,
   useGetCurrentUserQuery,
   useEditUserProfileMutation,
   useUploadUserAvatarMutation,
@@ -171,4 +190,5 @@ export const {
   useGetCurrentUserAdsQuery,
   useAddNewTextOnlyAdMutation,
   useGetUserAdsQuery,
+  useEditAdMutation,
 } = adsApi;

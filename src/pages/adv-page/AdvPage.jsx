@@ -1,21 +1,29 @@
 import { useState } from 'react';
+import { useSelector } from 'react-redux';
 import { Link, useParams } from 'react-router-dom';
 import { LoaderMarginContainer } from '../../App.styles';
 import { Loader } from '../../components/loader/Loader';
+import { AddNewAd } from '../../components/modals/AddNewAd';
 import { ShowPhoneNumButton } from '../../components/phone-num-button/ShowPhoneNumButton';
-import { useGetAdsQuery } from '../../services/ads';
+import { useGetAdsQuery, useGetCurrentUserQuery } from '../../services/ads';
 import { formatDate } from '../../utils/getDate';
 import * as S from './AdvPage.styles';
 
 export const baseUrl = 'http://127.0.0.1:8090/';
 
 export const AdvPage = () => {
-  const myAd = false;
   const { id } = useParams();
   const { data = [], isLoading, isError, error } = useGetAdsQuery();
   const actualAd = data.find((el) => el.id === Number(id));
 
   const [actualImg, setActualImg] = useState(null);
+
+  const user = useSelector((state) => state.auth.isAuth);
+
+  const { data: currentUser = [] } = useGetCurrentUserQuery();
+  const currentUserAd = currentUser?.id === actualAd?.user_id;
+
+  const [isEditModePopup, setEditModePopup] = useState(false);
 
   return (
     <>
@@ -27,6 +35,13 @@ export const AdvPage = () => {
         <h2>Ошибка: {error?.error}</h2>
       ) : (
         <>
+          {isEditModePopup && (
+            <AddNewAd
+              isEditMode={isEditModePopup}
+              setPopupOpen={setEditModePopup}
+              actualAd={actualAd}
+            />
+          )}
           <S.ArticleContainer>
             <S.Article>
               <S.ArticleMerryGoRound>
@@ -81,12 +96,15 @@ export const AdvPage = () => {
                   <S.ArticlePrice>
                     {actualAd?.price?.toLocaleString('ru')} ₽
                   </S.ArticlePrice>
-                  {!myAd && <ShowPhoneNumButton phone={actualAd?.user.phone} />}
-                  {myAd && (
+                  {user && currentUserAd ? (
                     <S.ButtonsContainer>
-                      <S.ArticleButton>Редактировать</S.ArticleButton>
+                      <S.ArticleButton onClick={() => setEditModePopup(true)}>
+                        Редактировать
+                      </S.ArticleButton>
                       <S.ArticleButton>Снять с публикации</S.ArticleButton>
                     </S.ButtonsContainer>
+                  ) : (
+                    <ShowPhoneNumButton phone={actualAd?.user.phone} />
                   )}
 
                   <S.ArticleAuthor>
