@@ -3,9 +3,12 @@ import { useParams } from 'react-router-dom';
 import {
   useAddNewTextOnlyAdMutation,
   useEditAdMutation,
+  useAddNewAdMutation,
 } from '../../services/ads';
 import { ModalCloseButton } from '../modal-close-button/ModalCloseButton';
 import * as S from './AddNewAd.styles';
+
+const array = [1, 2, 3, 4, 5];
 
 export const AddNewAd = ({ setPopupOpen, isEditMode, actualAd }) => {
   const [title, setTitle] = useState('');
@@ -32,7 +35,50 @@ export const AddNewAd = ({ setPopupOpen, isEditMode, actualAd }) => {
   const [addNewTextOnlyAd] = useAddNewTextOnlyAdMutation();
   const { id } = useParams();
   const [editAdd] = useEditAdMutation(id);
+  const [addNewAd] = useAddNewAdMutation({});
 
+  // Обработчик загрузки фото
+  const [img, setImg] = useState([]);
+  const [imgSrc, setImgSrc] = useState([]);
+
+  const uploadImgHandler = async (e) => {
+    e.preventDefault();
+    setImg([]);
+
+    const selectedFiles = e.target.files;
+    if (selectedFiles.length > 5) {
+      setError('Фотографий должно быть не более 5');
+      return;
+    }
+
+    const tempArray = [];
+
+    for (let i = 0; i < selectedFiles.length; i++) {
+      let file = selectedFiles[i];
+
+      if (!file.type.startsWith('image/')) {
+        continue;
+      }
+
+      setImg((prev) => prev.concat(file));
+
+      const reader = new FileReader();
+
+      reader.onload = (function (aImg) {
+        return function (e) {
+          aImg = e.target.result;
+          tempArray.push(aImg);
+          setImgSrc(tempArray);
+        };
+      })(img);
+      reader.readAsDataURL(file);
+    }
+
+    setIsFormChanged(true);
+    setError(null);
+  };
+
+  // Опубликовать объявление
   const publishAd = async (e) => {
     e.preventDefault();
 
@@ -59,8 +105,20 @@ export const AddNewAd = ({ setPopupOpen, isEditMode, actualAd }) => {
         price: price,
         id: id,
       }).unwrap();
-    } else {
+    } else if (!imgSrc.length) {
       await addNewTextOnlyAd(adData).unwrap();
+    } else {
+      const formData = new FormData();
+
+      formData.append('title', title);
+      formData.append('description', description);
+      formData.append('price', price);
+
+      img.forEach((image, index) => {
+        formData.append(`image${index + 1}`, image);
+      });
+
+      await addNewAd(formData).unwrap();
     }
 
     setIsFormChanged(false);
@@ -105,31 +163,44 @@ export const AddNewAd = ({ setPopupOpen, isEditMode, actualAd }) => {
                   Фотографии товара<span>не более 5 фотографий</span>
                 </S.FormNewAdText>
                 <S.FormNewAdBarImg>
-                  <S.FormNewAdImg>
-                    <img src="#" alt="" />
-                    <S.FormNewAdImgCover></S.FormNewAdImgCover>
-                  </S.FormNewAdImg>
-                  <S.FormNewAdImg>
-                    <img src="#" alt="" />
-                    <S.FormNewAdImgCover></S.FormNewAdImgCover>
-                  </S.FormNewAdImg>
-                  <S.FormNewAdImg>
-                    <S.FormNewAdImgCover></S.FormNewAdImgCover>
-                    <img src="#" alt="" />
-                  </S.FormNewAdImg>
-                  <S.FormNewAdImg>
-                    <S.FormNewAdImgCover></S.FormNewAdImgCover>
-                    <img src="#" alt="" />
-                  </S.FormNewAdImg>
-                  <S.FormNewAdImg>
-                    <S.FormNewAdImgCover></S.FormNewAdImgCover>
-                    <img src="#" alt="" />
-                  </S.FormNewAdImg>
+                  {imgSrc.length
+                    ? imgSrc.map((item) => (
+                        <S.FormNewAdImgLabel
+                          key={item}
+                          htmlFor="photo"
+                          $visibleImg={imgSrc.length}
+                          onChange={uploadImgHandler}
+                        >
+                          <img src={item} alt="" />
+                          <S.FormNewAdImgInput
+                            type="file"
+                            id="photo"
+                            accept="image/*"
+                            multiple
+                          />
+                        </S.FormNewAdImgLabel>
+                      ))
+                    : array.map((item) => (
+                        <S.FormNewAdImgLabel
+                          key={item}
+                          htmlFor="photo"
+                          $visibleImg={imgSrc.length}
+                          onChange={uploadImgHandler}
+                        >
+                          <img src="#" alt="" />
+                          <S.FormNewAdImgInput
+                            type="file"
+                            id="photo"
+                            accept="image/*"
+                            multiple
+                          />
+                        </S.FormNewAdImgLabel>
+                      ))}
                 </S.FormNewAdBarImg>
               </S.FormNewAdBlock>
               <S.FormNewAdBlock>
                 <label htmlFor="price">Цена</label>
-                <input
+                <S.FormNewAdPriceInput
                   type="number"
                   name="price"
                   defaultValue={actualAd?.price}

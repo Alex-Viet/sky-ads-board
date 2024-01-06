@@ -1,11 +1,15 @@
 import { useState } from 'react';
 import { useSelector } from 'react-redux';
-import { Link, useParams } from 'react-router-dom';
+import { Link, useNavigate, useParams } from 'react-router-dom';
 import { LoaderMarginContainer } from '../../App.styles';
 import { Loader } from '../../components/loader/Loader';
 import { AddNewAd } from '../../components/modals/AddNewAd';
 import { ShowPhoneNumButton } from '../../components/phone-num-button/ShowPhoneNumButton';
-import { useGetAdsQuery, useGetCurrentUserQuery } from '../../services/ads';
+import {
+  useDeleteAdMutation,
+  useGetAdsQuery,
+  useGetCurrentUserQuery,
+} from '../../services/ads';
 import { formatDate } from '../../utils/getDate';
 import * as S from './AdvPage.styles';
 
@@ -24,6 +28,16 @@ export const AdvPage = () => {
   const currentUserAd = currentUser?.id === actualAd?.user_id;
 
   const [isEditModePopup, setEditModePopup] = useState(false);
+
+  const [deleteAd] = useDeleteAdMutation(id);
+  const navigate = useNavigate();
+
+  const deleteAdHandler = async (evt) => {
+    evt.preventDefault();
+
+    await deleteAd(id).unwrap();
+    navigate('/profile');
+  };
 
   return (
     <>
@@ -101,7 +115,9 @@ export const AdvPage = () => {
                       <S.ArticleButton onClick={() => setEditModePopup(true)}>
                         Редактировать
                       </S.ArticleButton>
-                      <S.ArticleButton>Снять с публикации</S.ArticleButton>
+                      <S.ArticleButton onClick={deleteAdHandler}>
+                        Снять с публикации
+                      </S.ArticleButton>
                     </S.ButtonsContainer>
                   ) : (
                     <ShowPhoneNumButton phone={actualAd?.user.phone} />

@@ -1,16 +1,13 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 import { setAuth } from '../store/slices/authSlice';
 
-const ADS_TAG = { type: 'Ads', id: 'LIST' };
-
 //token refresh
 export const baseQueryWithReauth = async (args, api, extraOptions) => {
   const baseQuery = fetchBaseQuery({
     baseUrl: 'http://127.0.0.1:8090/',
-    prepareHeaders: (headers, { getState }) => {
+    prepareHeaders: (headers) => {
       const token =
-        getState().auth.refresh ??
-        (JSON?.parse(localStorage.getItem('auth-ads-board'))?.refresh || []);
+        JSON?.parse(localStorage.getItem('auth-ads-board'))?.refresh || [];
 
       console.debug('Использую токен из стора', { token });
       if (token) {
@@ -98,7 +95,7 @@ export const adsApi = createApi({
         method: 'POST',
         body: userData,
       }),
-      providesTags: ['Ads'],
+      invalidatesTags: ['Ads'],
     }),
     getTokens: build.mutation({
       query: (userData) => ({
@@ -106,7 +103,7 @@ export const adsApi = createApi({
         method: 'POST',
         body: userData,
       }),
-      providesTags: ['Ads'],
+      invalidatesTags: ['Ads'],
     }),
     getAllUsers: build.query({
       query: () => ({
@@ -143,10 +140,7 @@ export const adsApi = createApi({
       query: () => ({
         url: 'ads',
       }),
-      providesTags: (result) =>
-        result
-          ? [...result.map(({ id }) => ({ type: ADS_TAG.type, id })), ADS_TAG]
-          : [ADS_TAG],
+      providesTags: ['Ads'],
     }),
     getCurrentUserAds: build.query({
       query: (user_id) => ({
@@ -168,11 +162,41 @@ export const adsApi = createApi({
       }),
       providesTags: ['Ads'],
     }),
+    addNewAd: build.mutation({
+      query: (data) => {
+        const searchParams = new URLSearchParams();
+        searchParams.append('title', data.get('title'));
+        searchParams.append('description', data.get('description'));
+        searchParams.append('price', data.get('price'));
+
+        const formData = new FormData();
+
+        const arrData = [...data];
+        const length = arrData.length;
+
+        for (let i = 1; i < length - 2; i++) {
+          formData.append(`files`, data.get(`image${i}`));
+        }
+        return {
+          url: `ads?${searchParams.toString()}`,
+          method: 'POST',
+          body: formData,
+        };
+      },
+      invalidatesTags: ['Ads'],
+    }),
     editAd: build.mutation({
       query: ({ id, title, description, price }) => ({
         url: `ads/${id}`,
         method: 'PATCH',
         body: { title, description, price },
+      }),
+      invalidatesTags: ['Ads'],
+    }),
+    deleteAd: build.mutation({
+      query: (id) => ({
+        url: `ads/${id}`,
+        method: 'DELETE',
       }),
       invalidatesTags: ['Ads'],
     }),
@@ -186,9 +210,12 @@ export const {
   useGetCurrentUserQuery,
   useEditUserProfileMutation,
   useUploadUserAvatarMutation,
+
   useGetAdsQuery,
   useGetCurrentUserAdsQuery,
   useAddNewTextOnlyAdMutation,
   useGetUserAdsQuery,
+  useAddNewAdMutation,
   useEditAdMutation,
+  useDeleteAdMutation,
 } = adsApi;

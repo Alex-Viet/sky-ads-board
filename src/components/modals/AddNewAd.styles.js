@@ -59,6 +59,11 @@ export const FormNewAdBlock = styled.div`
   display: flex;
   flex-direction: column;
   margin-bottom: 20px;
+  input::-webkit-outer-spin-button,
+  input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+  }
 
   & label {
     color: #000000;
@@ -80,6 +85,7 @@ export const FormNewAdBlock = styled.div`
     font-size: 16px;
     line-height: 150%;
     padding: 13px 19px;
+    -moz-appearance: textfield;
 
     &::placeholder {
       font-family: 'Roboto', sans-serif;
@@ -95,15 +101,6 @@ export const FormNewAdBlock = styled.div`
     width: 100%;
     max-height: 200px;
     outline: none;
-  }
-
-  & input:first-of-type {
-    width: 100%;
-  }
-
-  & input:last-of-type {
-    width: 200px;
-    color: #000000;
   }
 `;
 
@@ -125,51 +122,58 @@ export const FormNewAdBarImg = styled.div`
   display: flex;
   flex-direction: row;
   align-items: center;
-  justify-content: space-between;
+  justify-content: flex-start;
   margin-bottom: 10px;
   overflow: hidden;
 `;
 
-export const FormNewAdImg = styled.div`
+export const FormNewAdImgLabel = styled.label`
   width: 90px;
   height: 90px;
   position: relative;
   z-index: 0;
   margin-right: 10px;
-
-  & img {
-    display: block;
-    width: 100%;
-    height: auto;
-    object-fit: cover;
-    z-index: 2;
-  }
-`;
-
-export const FormNewAdImgCover = styled.div`
-  position: absolute;
-  width: 100%;
-  height: 100%;
-  top: 0;
-  left: 0;
   background-color: #f0f0f0;
-  z-index: -1;
+  cursor: pointer;
 
   &::after,
   &::before {
     content: '';
     position: absolute;
     width: 30px;
-    height: 2px;
+    height: 3px;
     border-radius: 2px;
     background-color: #d9d9d9;
     top: 50%;
     right: calc(50% - (30px / 2));
+    z-index: ${(props) => (props.$visibleImg ? '-1' : '1')};
   }
 
   &::before {
     transform: rotate(90deg);
   }
+
+  & img {
+    display: ${(props) => (props.$visibleImg ? 'block' : 'none')};
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+`;
+
+export const FormNewAdImgInput = styled.input`
+  position: absolute;
+  width: 2px;
+  height: 2px;
+  top: 0;
+  left: 0;
+  z-index: -100;
+  visibility: hidden;
+`;
+
+export const FormNewAdPriceInput = styled.input`
+  width: 200px;
+  color: #000000;
 `;
 
 export const FormNewAdPriceCover = styled.div`

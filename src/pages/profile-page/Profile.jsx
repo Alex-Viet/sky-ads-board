@@ -97,8 +97,9 @@ export const Profile = () => {
 
   const uploadAvatar = async (evt) => {
     evt.preventDefault();
+
     const file = evt.target.files[0];
-    if (!file?.type?.includes('image')) {
+    if (!file?.type?.startsWith('image/')) {
       setTypeError('Неправильный формат изображения');
       return;
     }
