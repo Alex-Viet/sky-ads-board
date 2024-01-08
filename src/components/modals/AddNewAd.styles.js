@@ -216,3 +216,46 @@ export const FormNewAdPublishButton = styled.button`
     background-color: ${(props) => (props.$disabled ? '#afb3ba' : '')};
   }
 `;
+
+export const DeleteImgButton = styled.div`
+  width: 23px;
+  height: 23px;
+  position: absolute;
+  top: 2px;
+  right: 7px;
+  z-index: 3;
+  cursor: pointer;
+`;
+
+export const DeleteImgButtonLine = styled.div`
+  position: relative;
+  width: 100%;
+  height: 100%;
+
+  &::after,
+  &::before {
+    content: '';
+    position: absolute;
+    width: 20px;
+    height: 2px;
+    border-radius: 2px;
+    background-color: #d9d9d9;
+    top: 47%;
+    right: -4px;
+  }
+
+  &::before {
+    transform: rotate(45deg);
+  }
+
+  &::after {
+    transform: rotate(-45deg);
+  }
+
+  &:hover {
+    &::after,
+    &::before {
+      background-color: #0080c1;
+    }
+  }
+`;

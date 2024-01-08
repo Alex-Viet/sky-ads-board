@@ -6,8 +6,7 @@ export const baseQueryWithReauth = async (args, api, extraOptions) => {
   const baseQuery = fetchBaseQuery({
     baseUrl: 'http://127.0.0.1:8090/',
     prepareHeaders: (headers) => {
-      const token =
-        JSON?.parse(localStorage.getItem('auth-ads-board'))?.refresh || [];
+      const token = JSON.parse(localStorage.getItem('auth-ads-board'))?.refresh;
 
       console.debug('Использую токен из стора', { token });
       if (token) {
@@ -169,14 +168,14 @@ export const adsApi = createApi({
         searchParams.append('description', data.get('description'));
         searchParams.append('price', data.get('price'));
 
-        const formData = new FormData();
-
         const arrData = [...data];
         const length = arrData.length;
+        const formData = new FormData();
 
         for (let i = 1; i < length - 2; i++) {
           formData.append(`files`, data.get(`image${i}`));
         }
+
         return {
           url: `ads?${searchParams.toString()}`,
           method: 'POST',
@@ -200,6 +199,16 @@ export const adsApi = createApi({
       }),
       invalidatesTags: ['Ads'],
     }),
+
+    //images
+    deleteAdImg: build.mutation({
+      query: (data) => ({
+        url: `ads/${data.id}/image?file_url=${data.imageUrl}`,
+        method: 'DELETE',
+        body: data,
+      }),
+      invalidatesTags: ['Ads'],
+    }),
   }),
 });
 
@@ -218,4 +227,6 @@ export const {
   useAddNewAdMutation,
   useEditAdMutation,
   useDeleteAdMutation,
+
+  useDeleteAdImgMutation,
 } = adsApi;
