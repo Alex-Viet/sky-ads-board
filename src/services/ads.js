@@ -84,7 +84,7 @@ export const baseQueryWithReauth = async (args, api, extraOptions) => {
 
 export const adsApi = createApi({
   reducerPath: 'adsApi',
-  tagTypes: ['Ads'],
+  tagTypes: ['Ads', 'Comments'],
   baseQuery: baseQueryWithReauth,
   endpoints: (build) => ({
     //User
@@ -209,6 +209,22 @@ export const adsApi = createApi({
       }),
       invalidatesTags: ['Ads'],
     }),
+
+    //comments
+    getAdComments: build.query({
+      query: (id) => ({
+        url: `ads/${id}/comments`,
+      }),
+      providesTags: ['Comments'],
+    }),
+    postAdComment: build.mutation({
+      query: ({ id, text }) => ({
+        url: `ads/${id}/comments`,
+        method: 'POST',
+        body: { text },
+      }),
+      invalidatesTags: ['Comments'],
+    }),
   }),
 });
 
@@ -229,4 +245,7 @@ export const {
   useDeleteAdMutation,
 
   useDeleteAdImgMutation,
+
+  useGetAdCommentsQuery,
+  usePostAdCommentMutation,
 } = adsApi;

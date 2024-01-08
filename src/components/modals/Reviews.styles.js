@@ -130,6 +130,11 @@ export const FormAddReviewBlock = styled.div`
   }
 `;
 
+export const CommentError = styled.p`
+  color: coral;
+  margin-top: 10px;
+`;
+
 export const FormButtonReviewPublish = styled.button`
   ${Button}
 
@@ -148,9 +153,8 @@ export const Reviews = styled.div`
 
 export const Review = styled.div`
   display: flex;
-  align-items: center;
-  justify-content: center;
-  margin: 15px 0;
+  justify-content: flex-start;
+  margin: 30px 0;
 `;
 
 export const ReviewItem = styled.div`
@@ -173,8 +177,9 @@ export const ReviewImg = styled.div`
   & img {
     display: block;
     width: 100%;
-    height: auto;
+    height: 100%;
     object-fit: cover;
+    border-radius: inherit;
   }
 `;
 
@@ -203,12 +208,3 @@ export const ReviewAuthorName = styled.p`
     color: #5f5f5f;
   }
 `;
-
-// export const = styled.``;
-// export const = styled.``;
-// export const = styled.``;
-// export const = styled.``;
-// export const = styled.``;
-// export const = styled.``;
-// export const = styled.``;
-// export const = styled.``;

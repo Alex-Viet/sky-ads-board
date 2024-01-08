@@ -4,12 +4,15 @@ import { Link, useNavigate, useParams } from 'react-router-dom';
 import { LoaderMarginContainer } from '../../App.styles';
 import { Loader } from '../../components/loader/Loader';
 import { AddNewAd } from '../../components/modals/AddNewAd';
+import { Reviews } from '../../components/modals/Reviews';
 import { ShowPhoneNumButton } from '../../components/phone-num-button/ShowPhoneNumButton';
 import {
   useDeleteAdMutation,
+  useGetAdCommentsQuery,
   useGetAdsQuery,
   useGetCurrentUserQuery,
 } from '../../services/ads';
+import { declOfWord } from '../../utils/declensionOfCases';
 import { formatDate } from '../../utils/getDate';
 import * as S from './AdvPage.styles';
 
@@ -39,6 +42,10 @@ export const AdvPage = () => {
     navigate('/profile');
   };
 
+  // отзывы
+  const [isCommentsPopupOpen, setCommentsPopupOpen] = useState(false);
+  const { data: comments } = useGetAdCommentsQuery(id);
+
   return (
     <>
       {isLoading ? (
@@ -55,6 +62,9 @@ export const AdvPage = () => {
               setPopupOpen={setEditModePopup}
               actualAd={actualAd}
             />
+          )}
+          {isCommentsPopupOpen && (
+            <Reviews setPopupOpen={setCommentsPopupOpen} id={id} />
           )}
           <S.ArticleContainer>
             <S.Article>
@@ -105,7 +115,9 @@ export const AdvPage = () => {
                   <S.ArticleInfoText>
                     <p>{formatDate(actualAd?.created_on)}</p>
                     <p>{actualAd?.user.city}</p>
-                    <a href="#">23 отзыва</a>
+                    <a onClick={() => setCommentsPopupOpen(true)}>
+                      {comments?.length} {declOfWord(comments?.length)}
+                    </a>
                   </S.ArticleInfoText>
                   <S.ArticlePrice>
                     {actualAd?.price?.toLocaleString('ru')} ₽

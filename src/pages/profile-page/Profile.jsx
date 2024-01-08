@@ -63,6 +63,7 @@ export const Profile = () => {
     setEditMode(true);
   };
 
+  // редактирование профиля
   const handleSaveChanges = async (evt) => {
     evt.preventDefault();
 
@@ -95,6 +96,7 @@ export const Profile = () => {
 
   const [uploadUserAvatar] = useUploadUserAvatarMutation();
 
+  // загрузить аватар
   const uploadAvatar = async (evt) => {
     evt.preventDefault();
 
