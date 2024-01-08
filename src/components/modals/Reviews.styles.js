@@ -13,6 +13,7 @@ export const Wrapper = styled.div`
   justify-content: center;
   align-items: center;
   z-index: 1000;
+  overflow: hidden;
 `;
 
 export const ContainerBg = styled.div`
@@ -44,7 +45,7 @@ export const ModalContent = styled.div`
   align-items: flex-start;
   width: 800px;
   height: auto;
-  padding: 20px 98px 57px 50px;
+  padding: 20px 15px 57px 50px;
   background-color: #ffffff;
   border-radius: 12px;
   position: relative;
@@ -69,18 +70,17 @@ export const ModalScroll = styled.div`
   align-items: flex-start;
   width: 100%;
   overflow-y: auto;
-  scrollbar-color: #ffffff #2e2e2e; // Firefox
+  scrollbar-color: #d9d9d9 #ffffff; // Firefox
   scrollbar-width: thin; // Firefox
-  scrollbar-width: 0px; // Firefox
 
   &::-webkit-scrollbar {
-    width: 0px;
+    width: 6px;
     background-color: #ffffff;
   }
 
   &::-webkit-scrollbar-thumb {
     background-color: #d9d9d9;
-    border-radius: 0px;
+    border-radius: 10px;
   }
 `;
 
@@ -107,7 +107,7 @@ export const FormAddReviewBlock = styled.div`
   }
 
   & textarea {
-    width: 100%;
+    width: 652px;
     height: 100px;
     max-height: 100px;
     font-size: 16px;
@@ -185,6 +185,7 @@ export const ReviewImg = styled.div`
 
 export const ReviewContent = styled.div`
   display: block;
+  width: 600px;
 
   & p:not(:last-of-type) {
     font-family: 'Noto Sans', sans-serif;

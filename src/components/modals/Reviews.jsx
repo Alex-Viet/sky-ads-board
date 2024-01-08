@@ -9,6 +9,7 @@ import { LoaderMarginContainer } from '../../App.styles';
 import { Loader } from '../loader/Loader';
 import { formatDate } from '../../utils/getDate';
 import { baseUrl } from '../../pages/adv-page/AdvPage';
+import { useEffect } from 'react';
 
 export const Reviews = ({ setPopupOpen, id }) => {
   const [disableButton, setDisableButton] = useState(true);
@@ -19,6 +20,12 @@ export const Reviews = ({ setPopupOpen, id }) => {
     setComment(e.target.value);
     setDisableButton(false);
   };
+
+  useEffect(() => {
+    if (!comment) {
+      setDisableButton(true);
+    }
+  }, [comment]);
 
   const { data, isLoading, isError, error } = useGetAdCommentsQuery(id);
   const [postAdComment] = usePostAdCommentMutation();
