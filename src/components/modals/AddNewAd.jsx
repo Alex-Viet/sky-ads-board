@@ -7,6 +7,7 @@ import {
   useEditAdMutation,
   useAddNewAdMutation,
   useDeleteAdImgMutation,
+  usePostAdImgMutation,
 } from '../../services/ads';
 import { ModalCloseButton } from '../modal-close-button/ModalCloseButton';
 import * as S from './AddNewAd.styles';
@@ -47,12 +48,6 @@ export const AddNewAd = ({ setPopupOpen, isEditMode, actualAd }) => {
   const [img, setImg] = useState([]);
   const [imgSrc, setImgSrc] = useState([]);
 
-  useEffect(() => {
-    if (actualAd.images.length) {
-      setImg(actualAd.images);
-    }
-  }, []);
-
   const uploadImgHandler = async (e) => {
     e.preventDefault();
     setImg([]);
@@ -91,6 +86,22 @@ export const AddNewAd = ({ setPopupOpen, isEditMode, actualAd }) => {
     setError(null);
   };
 
+  // Залить фото объявления
+  const [postAdImg] = usePostAdImgMutation();
+
+  const uploadSingleImg = async (evt) => {
+    evt.preventDefault();
+
+    const selectedFile = evt.target.files[0];
+    const formData = new FormData();
+    formData.append('file', selectedFile);
+
+    await postAdImg({ id, formData }).unwrap();
+
+    setIsFormChanged(true);
+    setError(null);
+  };
+
   // Опубликовать объявление
   const [addNewTextOnlyAd] = useAddNewTextOnlyAdMutation();
   const { id } = useParams();
@@ -111,10 +122,6 @@ export const AddNewAd = ({ setPopupOpen, isEditMode, actualAd }) => {
     }
 
     if (isEditMode) {
-      if (img.length) {
-        console.log('Photo');
-      }
-
       await editAdd({
         title: title,
         description: description,
@@ -130,7 +137,6 @@ export const AddNewAd = ({ setPopupOpen, isEditMode, actualAd }) => {
         }).unwrap();
       } else {
         const formData = new FormData();
-
         formData.append('title', title);
         formData.append('description', description);
         formData.append('price', price);
@@ -156,7 +162,6 @@ export const AddNewAd = ({ setPopupOpen, isEditMode, actualAd }) => {
 
     const id = actualAd.id;
     const data = { id, imageUrl };
-
     await deleteAdImg(data).unwrap();
   };
 
@@ -197,79 +202,64 @@ export const AddNewAd = ({ setPopupOpen, isEditMode, actualAd }) => {
                   Фотографии товара<span>не более 5 фотографий</span>
                 </S.FormNewAdText>
                 <S.FormNewAdBarImg>
-                  {isEditMode && (
-                    <>
-                      <S.FormNewAdImgLabel
-                        htmlFor="photo"
-                        $visibleImg={imgSrc[0]}
-                        onChange={uploadImgHandler}
-                      >
-                        <img src={imgSrc[0]} alt="" />
-                        <S.FormNewAdImgInput
-                          type="file"
-                          id="photo"
-                          accept="image/*"
-                        />
-                        {actualAd.images[0] && (
+                  {isEditMode &&
+                    (actualAd.images.length < 5 ? (
+                      <>
+                        {actualAd.images.map((image) => (
+                          <S.FormNewAdImgLabel
+                            key={image.id}
+                            htmlFor="photo"
+                            $visibleImg={actualAd.images}
+                            onChange={uploadSingleImg}
+                          >
+                            <img src={baseUrl + image.url} alt="" />
+                            <S.FormNewAdImgInput
+                              type="file"
+                              id="photo"
+                              accept="image/*"
+                            />
+                            <S.DeleteImgButton
+                              onClick={(e) => deleteImgHandler(e, image.url)}
+                            >
+                              <S.DeleteImgButtonLine />
+                            </S.DeleteImgButton>
+                          </S.FormNewAdImgLabel>
+                        ))}
+                        <S.FormNewAdImgLabel
+                          htmlFor="photo"
+                          $visibleImg={imgSrc.length}
+                          onChange={uploadSingleImg}
+                        >
+                          <img src="#" alt="" />
+                          <S.FormNewAdImgInput
+                            type="file"
+                            id="photo"
+                            accept="image/*"
+                          />
+                        </S.FormNewAdImgLabel>
+                      </>
+                    ) : (
+                      actualAd.images.map((image) => (
+                        <S.FormNewAdImgLabel
+                          key={image.id}
+                          htmlFor="photo"
+                          $visibleImg={actualAd.images}
+                        >
+                          <img src={baseUrl + image.url} alt="" />
+                          <S.FormNewAdImgInput
+                            type="file"
+                            id="photo"
+                            accept="image/*"
+                            multiple
+                          />
                           <S.DeleteImgButton
-                            onClick={(e) =>
-                              deleteImgHandler(e, actualAd.images[0]?.url)
-                            }
+                            onClick={(e) => deleteImgHandler(e, image.url)}
                           >
                             <S.DeleteImgButtonLine />
                           </S.DeleteImgButton>
-                        )}
-                      </S.FormNewAdImgLabel>
-                      <S.FormNewAdImgLabel
-                        htmlFor="photo"
-                        $visibleImg={actualAd.images[1]}
-                        onChange={uploadImgHandler}
-                      >
-                        <img
-                          src={baseUrl + actualAd.images[1]?.url || ''}
-                          alt=""
-                        />
-                        <S.FormNewAdImgInput
-                          type="file"
-                          id="photo"
-                          accept="image/*"
-                        />
-                        {actualAd.images[1] && (
-                          <S.DeleteImgButton
-                            onClick={(e) =>
-                              deleteImgHandler(e, actualAd.images[1]?.url)
-                            }
-                          >
-                            <S.DeleteImgButtonLine />
-                          </S.DeleteImgButton>
-                        )}
-                      </S.FormNewAdImgLabel>
-                      <S.FormNewAdImgLabel
-                        htmlFor="photo"
-                        $visibleImg={actualAd.images[2]}
-                        onChange={uploadImgHandler}
-                      >
-                        <img
-                          src={baseUrl + actualAd.images[2]?.url || ''}
-                          alt=""
-                        />
-                        <S.FormNewAdImgInput
-                          type="file"
-                          id="photo"
-                          accept="image/*"
-                        />
-                        {actualAd.images[2] && (
-                          <S.DeleteImgButton
-                            onClick={(e) =>
-                              deleteImgHandler(e, actualAd.images[2]?.url)
-                            }
-                          >
-                            <S.DeleteImgButtonLine />
-                          </S.DeleteImgButton>
-                        )}
-                      </S.FormNewAdImgLabel>
-                    </>
-                  )}
+                        </S.FormNewAdImgLabel>
+                      ))
+                    ))}
                   {!isEditMode && imgSrc.length
                     ? imgSrc.map((item) => (
                         <S.FormNewAdImgLabel

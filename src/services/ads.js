@@ -214,6 +214,14 @@ export const adsApi = createApi({
       }),
       invalidatesTags: ['Ads'],
     }),
+    postAdImg: build.mutation({
+      query: ({ id, formData }) => ({
+        url: `ads/${id}/image`,
+        method: 'POST',
+        body: formData,
+      }),
+      invalidatesTags: ['Ads'],
+    }),
 
     //comments
     getAdComments: build.query({
@@ -250,6 +258,7 @@ export const {
   useDeleteAdMutation,
 
   useDeleteAdImgMutation,
+  usePostAdImgMutation,
 
   useGetAdCommentsQuery,
   usePostAdCommentMutation,
