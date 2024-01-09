@@ -1,21 +1,50 @@
 import { useState } from 'react';
-import { useParams } from 'react-router-dom';
+import { useSelector } from 'react-redux';
+import { Link, useNavigate, useParams } from 'react-router-dom';
 import { LoaderMarginContainer } from '../../App.styles';
 import { Loader } from '../../components/loader/Loader';
+import { AddNewAd } from '../../components/modals/AddNewAd';
+import { Reviews } from '../../components/modals/Reviews';
 import { ShowPhoneNumButton } from '../../components/phone-num-button/ShowPhoneNumButton';
-import { useGetAdsQuery } from '../../services/ads';
+import {
+  useDeleteAdMutation,
+  useGetAdCommentsQuery,
+  useGetAdsQuery,
+} from '../../services/ads';
+import { AUTH_KEY } from '../../store/slices/authSlice';
+import { declOfWord } from '../../utils/declensionOfCases';
 import { formatDate } from '../../utils/getDate';
+import { baseUrl } from '../../utils/url';
 import * as S from './AdvPage.styles';
 
-export const baseUrl = 'http://127.0.0.1:8090/';
-
 export const AdvPage = () => {
-  const myAd = false;
   const { id } = useParams();
   const { data = [], isLoading, isError, error } = useGetAdsQuery();
   const actualAd = data.find((el) => el.id === Number(id));
 
   const [actualImg, setActualImg] = useState(null);
+
+  const user = useSelector((state) => state.auth.isAuth);
+  const localData = JSON.parse(localStorage.getItem(AUTH_KEY)) || [];
+  const userId = localData.id;
+
+  const currentUserAd = userId === actualAd?.user_id;
+
+  const [isEditModePopup, setEditModePopup] = useState(false);
+
+  const [deleteAd] = useDeleteAdMutation(id);
+  const navigate = useNavigate();
+
+  const deleteAdHandler = async (evt) => {
+    evt.preventDefault();
+
+    await deleteAd(id).unwrap();
+    navigate('/profile');
+  };
+
+  // отзывы
+  const [isCommentsPopupOpen, setCommentsPopupOpen] = useState(false);
+  const { data: comments } = useGetAdCommentsQuery(id);
 
   return (
     <>
@@ -27,6 +56,16 @@ export const AdvPage = () => {
         <h2>Ошибка: {error?.error}</h2>
       ) : (
         <>
+          {isEditModePopup && (
+            <AddNewAd
+              isEditMode={isEditModePopup}
+              setPopupOpen={setEditModePopup}
+              actualAd={actualAd}
+            />
+          )}
+          {isCommentsPopupOpen && (
+            <Reviews setPopupOpen={setCommentsPopupOpen} id={id} />
+          )}
           <S.ArticleContainer>
             <S.Article>
               <S.ArticleMerryGoRound>
@@ -76,17 +115,24 @@ export const AdvPage = () => {
                   <S.ArticleInfoText>
                     <p>{formatDate(actualAd?.created_on)}</p>
                     <p>{actualAd?.user.city}</p>
-                    <a href="#">23 отзыва</a>
+                    <a onClick={() => setCommentsPopupOpen(true)}>
+                      {comments?.length} {declOfWord(comments?.length)}
+                    </a>
                   </S.ArticleInfoText>
                   <S.ArticlePrice>
                     {actualAd?.price?.toLocaleString('ru')} ₽
                   </S.ArticlePrice>
-                  {!myAd && <ShowPhoneNumButton phone={actualAd?.user.phone} />}
-                  {myAd && (
+                  {user && currentUserAd ? (
                     <S.ButtonsContainer>
-                      <S.ArticleButton>Редактировать</S.ArticleButton>
-                      <S.ArticleButton>Снять с публикации</S.ArticleButton>
+                      <S.ArticleButton onClick={() => setEditModePopup(true)}>
+                        Редактировать
+                      </S.ArticleButton>
+                      <S.ArticleButton onClick={deleteAdHandler}>
+                        Снять с публикации
+                      </S.ArticleButton>
                     </S.ButtonsContainer>
+                  ) : (
+                    <ShowPhoneNumButton phone={actualAd?.user.phone} />
                   )}
 
                   <S.ArticleAuthor>
@@ -96,7 +142,9 @@ export const AdvPage = () => {
                       )}
                     </S.AuthorImg>
                     <S.AuthorInfo>
-                      <S.AuthorName>{actualAd?.user?.name}</S.AuthorName>
+                      <Link to={`/seller-profile/${actualAd?.user_id}`}>
+                        <S.AuthorName>{actualAd?.user?.name}</S.AuthorName>
+                      </Link>
                       <S.AuthorAbout>
                         Продает товары с{' '}
                         {formatDate(actualAd?.user?.sells_from)}

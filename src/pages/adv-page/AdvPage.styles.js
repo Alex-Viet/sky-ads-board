@@ -131,9 +131,10 @@ export const AuthorImg = styled.div`
 
   & img {
     width: 100%;
-    height: auto;
+    height: 100%;
     display: block;
     object-fit: cover;
+    border-radius: inherit;
   }
 `;
 

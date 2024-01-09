@@ -1,16 +1,14 @@
 import { useState } from 'react';
 import { useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import { LoaderMarginContainer } from '../../App.styles';
 import { useSearch } from '../../context/SearchContext';
-import { baseUrl } from '../../pages/adv-page/AdvPage';
+import { baseUrl } from '../../utils/url';
 import { formatDate } from '../../utils/getDate';
-import { Loader } from '../loader/Loader';
 import * as S from './Cards.styles';
 
-export const Cards = ({ data, isLoading, isError, error }) => {
+export const Cards = ({ data }) => {
   // Поиск
-  const [filteredAds, setFilteredAds] = useState();
+  const [filteredAds, setFilteredAds] = useState([]);
   const { searchValue } = useSearch();
 
   useEffect(() => {
@@ -23,15 +21,9 @@ export const Cards = ({ data, isLoading, isError, error }) => {
 
   return (
     <S.MainContent>
-      {isLoading ? (
-        <LoaderMarginContainer>
-          <Loader />
-        </LoaderMarginContainer>
-      ) : isError ? (
-        <h2>Ошибка: {error?.error}</h2>
-      ) : (
+      {filteredAds?.length ? (
         <S.Cards>
-          {filteredAds?.map((ad) => (
+          {filteredAds.map((ad) => (
             <S.CardsItem key={ad.id}>
               <S.Card>
                 <S.CardImg>
@@ -58,6 +50,8 @@ export const Cards = ({ data, isLoading, isError, error }) => {
             </S.CardsItem>
           ))}
         </S.Cards>
+      ) : (
+        <p>Объявлений пока нет</p>
       )}
     </S.MainContent>
   );

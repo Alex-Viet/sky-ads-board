@@ -14,3 +14,9 @@ export const PhoneNumButton = styled.button`
     font-size: 14px;
   }
 `;
+
+export const NoPhoneText = styled.p`
+  font-size: 20px;
+  font-weight: 600;
+  line-height: 40px;
+`;
