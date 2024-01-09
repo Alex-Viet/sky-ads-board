@@ -5,7 +5,7 @@ import { Loader } from '../../components/loader/Loader';
 import { ShowPhoneNumButton } from '../../components/phone-num-button/ShowPhoneNumButton';
 import { useGetCurrentUserAdsQuery } from '../../services/ads';
 import { formatDate } from '../../utils/getDate';
-import { baseUrl } from '../adv-page/AdvPage';
+import { baseUrl } from '../../utils/url';
 import * as S from './Profile.styles';
 
 export const SellerProfile = () => {

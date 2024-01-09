@@ -10,13 +10,12 @@ import {
   useDeleteAdMutation,
   useGetAdCommentsQuery,
   useGetAdsQuery,
-  useGetCurrentUserQuery,
 } from '../../services/ads';
+import { AUTH_KEY } from '../../store/slices/authSlice';
 import { declOfWord } from '../../utils/declensionOfCases';
 import { formatDate } from '../../utils/getDate';
+import { baseUrl } from '../../utils/url';
 import * as S from './AdvPage.styles';
-
-export const baseUrl = 'http://127.0.0.1:8090/';
 
 export const AdvPage = () => {
   const { id } = useParams();
@@ -26,9 +25,10 @@ export const AdvPage = () => {
   const [actualImg, setActualImg] = useState(null);
 
   const user = useSelector((state) => state.auth.isAuth);
+  const localData = JSON.parse(localStorage.getItem(AUTH_KEY)) || [];
+  const userId = localData.id;
 
-  const { data: currentUser = [] } = useGetCurrentUserQuery();
-  const currentUserAd = currentUser?.id === actualAd?.user_id;
+  const currentUserAd = userId === actualAd?.user_id;
 
   const [isEditModePopup, setEditModePopup] = useState(false);
 

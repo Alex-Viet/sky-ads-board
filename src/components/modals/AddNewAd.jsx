@@ -1,7 +1,7 @@
 import { useEffect } from 'react';
 import { useState } from 'react';
 import { useParams } from 'react-router-dom';
-import { baseUrl } from '../../pages/adv-page/AdvPage';
+import { baseUrl } from '../../utils/url';
 import {
   useAddNewTextOnlyAdMutation,
   useEditAdMutation,

@@ -111,10 +111,15 @@ export const adsApi = createApi({
       providesTags: ['Ads'],
     }),
     getCurrentUser: build.query({
-      query: (access) => ({
+      query: () => ({
         url: 'user',
-        headers: { Authorization: `Bearer ${access}` },
       }),
+      transformResponse: (response) => {
+        const data = JSON.parse(localStorage.getItem('auth-ads-board'));
+        data.id = response.id;
+        localStorage.setItem('auth-ads-board', JSON.stringify(data));
+        return response;
+      },
       providesTags: ['Ads'],
     }),
     editUserProfile: build.mutation({

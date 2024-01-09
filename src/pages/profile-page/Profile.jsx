@@ -9,7 +9,7 @@ import {
   useUploadUserAvatarMutation,
   useGetUserAdsQuery,
 } from '../../services/ads';
-import { baseUrl } from '../adv-page/AdvPage';
+import { baseUrl } from '../../utils/url';
 import * as S from './Profile.styles';
 
 export const Profile = () => {

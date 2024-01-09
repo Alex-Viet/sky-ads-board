@@ -1,6 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit';
 
-const AUTH_KEY = 'auth-ads-board';
+export const AUTH_KEY = 'auth-ads-board';
 
 function getAuthFromLocalStorage() {
   try {

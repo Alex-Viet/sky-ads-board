@@ -2,13 +2,13 @@ import { useState } from 'react';
 import { useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { useSearch } from '../../context/SearchContext';
-import { baseUrl } from '../../pages/adv-page/AdvPage';
+import { baseUrl } from '../../utils/url';
 import { formatDate } from '../../utils/getDate';
 import * as S from './Cards.styles';
 
 export const Cards = ({ data }) => {
   // Поиск
-  const [filteredAds, setFilteredAds] = useState();
+  const [filteredAds, setFilteredAds] = useState([]);
   const { searchValue } = useSearch();
 
   useEffect(() => {
