@@ -3,6 +3,10 @@ import { ButtonWithBorder } from '../../App.styles';
 
 export const Header = styled.header`
   background-color: #009ee4;
+
+  @media screen and (max-width: 590px) {
+    display: none;
+  }
 `;
 
 export const HeaderNav = styled.nav`

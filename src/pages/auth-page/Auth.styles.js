@@ -24,6 +24,14 @@ export const Modal = styled.div`
   flex-direction: column;
   align-items: center;
   padding: 43px 47px 47px 40px;
+
+  @media screen and (max-width: 768px) {
+    position: absolute;
+    z-index: 2;
+    top: 55px;
+    opacity: 1;
+    padding: 43px 20px 47px;
+  }
 `;
 
 export const ModalLogo = styled.div`
@@ -35,6 +43,17 @@ export const ModalLogo = styled.div`
   & img {
     width: 140px;
     height: auto;
+    @media screen and (max-width: 768px) {
+      width: 120px;
+      height: auto;
+    }
+  }
+
+  @media screen and (max-width: 768px) {
+    width: 120px;
+    height: 18px;
+    margin-bottom: 30px;
+    background-color: transparent;
   }
 `;
 
@@ -42,6 +61,17 @@ export const ModalForm = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
+
+  @media screen and (max-width: 768px) {
+    width: 320px;
+    height: auto;
+    background-color: #ffffff;
+    border-radius: 0px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 40px 20px;
+  }
 `;
 
 export const ModalInput = styled.input`
@@ -58,6 +88,21 @@ export const ModalInput = styled.input`
     letter-spacing: -0.05px;
     color: #d0cece;
   }
+
+  @media screen and (max-width: 768px) {
+    width: 100%;
+    border: 1px solid #d0cece;
+    padding: 9px 17px;
+    border-radius: 30px;
+
+    &::placeholder {
+      font-style: normal;
+      font-weight: 400;
+      font-size: 14px;
+      line-height: 21px;
+      color: #b3b3b3;
+    }
+  }
 `;
 
 export const ModalButton = styled.button`
@@ -69,6 +114,15 @@ export const ModalButton = styled.button`
   line-height: 24px;
   letter-spacing: -0.05px;
   margin-top: 30px;
+
+  @media screen and (max-width: 768px) {
+    height: 46px;
+    margin-top: 40px;
+    margin-bottom: 10px;
+    border: none;
+    font-size: 16px;
+    line-height: 24px;
+  }
 `;
 
 export const ModalButtonRegister = styled.button`
@@ -85,6 +139,15 @@ export const ModalButtonRegister = styled.button`
 
   &:hover {
     background-color: #f4f5f6;
+  }
+
+  @media screen and (max-width: 768px) {
+    height: 46px;
+    border: 1px solid #d9d9d9;
+    font-size: 16px;
+    line-height: 24px;
+    font-size: 16px;
+    line-height: 24px;
   }
 `;
 

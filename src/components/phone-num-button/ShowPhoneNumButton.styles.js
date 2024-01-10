@@ -8,10 +8,23 @@ export const PhoneNumButton = styled.button`
   font-size: 16px;
   line-height: 140%;
   padding: 10px 37px;
+  order: 3;
 
   & span {
     display: block;
     font-size: 14px;
+  }
+
+  @media screen and (max-width: 590px) {
+    width: 100%;
+    height: 57px;
+    font-size: 14px;
+    line-height: 20px;
+    color: #ffffff;
+
+    & span {
+      font-size: 12px;
+    }
   }
 `;
 

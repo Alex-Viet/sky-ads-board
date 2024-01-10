@@ -14,6 +14,10 @@ export const Wrapper = styled.div`
   align-items: center;
   z-index: 1000;
   overflow: hidden;
+
+  @media screen and (max-width: 600px) {
+    position: relative;
+  }
 `;
 
 export const ContainerBg = styled.div`
@@ -22,6 +26,12 @@ export const ContainerBg = styled.div`
   margin: 0 auto;
   position: relative;
   background-color: #f4f5f6;
+
+  @media screen and (max-width: 600px) {
+    position: fixed;
+    left: 0;
+    top: 0;
+  }
 `;
 
 export const ModalBlock = styled.div`
@@ -30,6 +40,14 @@ export const ModalBlock = styled.div`
   left: calc(50% - (800px / 2));
   top: 60px;
   opacity: 1;
+
+  @media screen and (max-width: 600px) {
+    position: absolute;
+    z-index: 5;
+    left: 0;
+    top: 55px;
+    opacity: 1;
+  }
 `;
 
 export const ModalContent = styled.div`
@@ -49,12 +67,46 @@ export const ModalContent = styled.div`
   background-color: #ffffff;
   border-radius: 12px;
   position: relative;
+
+  @media screen and (max-width: 600px) {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    width: 100%;
+    min-width: 320px;
+    height: 100vh;
+    max-height: 800px;
+    padding: 30px 20px 30px;
+    border-radius: 0;
+  }
 `;
 
 export const ModalHeading = styled.h3`
   ${HeadingH3}
 
   margin-bottom: 15px;
+
+  @media screen and (max-width: 600px) {
+    font-size: 24px;
+    line-height: 29px;
+    padding: 0 0 0 26px;
+    position: relative;
+
+    &::before {
+      content: '';
+      display: block;
+      width: 12px;
+      height: 12px;
+      background-color: transparent;
+      border-top: 2px solid #000000;
+      border-left: 2px solid #000000;
+      transform: rotate(-45deg);
+      position: absolute;
+      top: 9px;
+      left: 0;
+      cursor: pointer;
+    }
+  }
 `;
 
 export const ModalScroll = styled.div`
@@ -82,6 +134,10 @@ export const ModalScroll = styled.div`
     background-color: #d9d9d9;
     border-radius: 10px;
   }
+
+  @media screen and (max-width: 600px) {
+    padding-right: 22px;
+  }
 `;
 
 export const ModalFormAddReview = styled.form`
@@ -90,6 +146,10 @@ export const ModalFormAddReview = styled.form`
   display: flex;
   flex-direction: column;
   width: 100%;
+
+  @media screen and (max-width: 600px) {
+    margin-top: 22px;
+  }
 `;
 
 export const FormAddReviewBlock = styled.div`
@@ -104,6 +164,10 @@ export const FormAddReviewBlock = styled.div`
     line-height: 32px;
     font-weight: 600;
     color: #000000;
+
+    @media screen and (max-width: 600px) {
+      display: none;
+    }
   }
 
   & textarea {
@@ -127,6 +191,31 @@ export const FormAddReviewBlock = styled.div`
       line-height: 150%;
       color: #0000004d;
     }
+
+    @media screen and (max-width: 600px) {
+      font-family: 'Roboto', sans-serif;
+      width: 100%;
+      max-height: 107px;
+      padding: 9px 17px;
+      background: #ffffff;
+      border: 1px solid rgba(0, 0, 0, 0.2);
+      border-radius: 30px;
+      font-size: 16px;
+      line-height: 1;
+
+      &::placeholder {
+        font-size: 14px;
+        line-height: 21px;
+        color: #c4c4c4;
+      }
+    }
+  }
+
+  @media screen and (max-width: 600px) {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 16px;
   }
 `;
 
@@ -144,6 +233,13 @@ export const FormButtonReviewPublish = styled.button`
   font-style: normal;
   line-height: 150%;
   padding: 13px 37px;
+
+  @media screen and (max-width: 600px) {
+    margin-top: 0px;
+    width: 100%;
+    height: 46px;
+    background-color: #009ee4;
+  }
 `;
 
 export const Reviews = styled.div`
@@ -186,6 +282,13 @@ export const ReviewImg = styled.div`
 export const ReviewContent = styled.div`
   display: block;
   width: 600px;
+
+  @media screen and (max-width: 600px) {
+    font-size: 14px;
+    line-height: 28px;
+    color: #000000;
+    max-width: 230px;
+  }
 
   & p:not(:last-of-type) {
     font-family: 'Noto Sans', sans-serif;
