@@ -8,7 +8,7 @@ export const baseQueryWithReauth = async (args, api, extraOptions) => {
     prepareHeaders: (headers) => {
       const token = JSON.parse(localStorage.getItem('auth-ads-board'))?.refresh;
 
-      console.debug('Использую токен из стора', { token });
+      // console.debug('Использую токен из стора', { token });
       if (token) {
         headers.set('authorization', `Bearer ${token}`);
       }
@@ -18,7 +18,7 @@ export const baseQueryWithReauth = async (args, api, extraOptions) => {
   });
 
   const forceLogout = () => {
-    console.debug('Принудительная авторизация!');
+    // console.debug('Принудительная авторизация!');
     api.dispatch(
       setAuth({
         email: null,
@@ -32,10 +32,10 @@ export const baseQueryWithReauth = async (args, api, extraOptions) => {
   };
 
   const result = await baseQuery(args, api, extraOptions);
-  console.debug('Результат первого запроса', { result });
+  // console.debug('Результат первого запроса', { result });
 
   const { auth } = api.getState();
-  console.debug('Данные пользователя в сторе', { auth });
+  // console.debug('Данные пользователя в сторе', { auth });
 
   const refreshToken = async () => {
     const refreshResult = await baseQuery(
@@ -51,7 +51,7 @@ export const baseQueryWithReauth = async (args, api, extraOptions) => {
       extraOptions,
     );
 
-    console.debug('Результат запроса на обновление токена', { refreshResult });
+    // console.debug('Результат запроса на обновление токена', { refreshResult });
     if (refreshResult?.error?.status === 401) {
       throw new Error('Failed to refresh token');
     }
@@ -69,7 +69,7 @@ export const baseQueryWithReauth = async (args, api, extraOptions) => {
     try {
       await refreshToken();
       const retryResult = await baseQuery(args, api, extraOptions);
-      console.debug('Повторный запрос завершился успешно');
+      // console.debug('Повторный запрос завершился успешно');
 
       return retryResult;
     } catch (refreshError) {

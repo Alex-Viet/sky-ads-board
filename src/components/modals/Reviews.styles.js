@@ -13,7 +13,6 @@ export const Wrapper = styled.div`
   justify-content: center;
   align-items: center;
   z-index: 1000;
-  overflow: hidden;
 
   @media screen and (max-width: 600px) {
     position: relative;
