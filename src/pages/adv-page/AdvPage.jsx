@@ -18,23 +18,24 @@ import { baseUrl } from '../../utils/url';
 import * as S from './AdvPage.styles';
 
 export const AdvPage = () => {
-  const { id } = useParams();
-  const { data = [], isLoading, isError, error } = useGetAdsQuery();
-  const actualAd = data.find((el) => el.id === Number(id));
-
   const [actualImg, setActualImg] = useState(null);
   const [imgIndex, setImgIndex] = useState(0);
+  const [isEditModePopup, setEditModePopup] = useState(false);
+  const [isCommentsPopupOpen, setCommentsPopupOpen] = useState(false);
+
+  const { id } = useParams();
+  const navigate = useNavigate();
 
   const user = useSelector((state) => state.auth.isAuth);
   const localData = JSON.parse(localStorage.getItem(AUTH_KEY)) || [];
-  const userId = localData.id;
 
+  const { data = [], isLoading, isError, error } = useGetAdsQuery();
+  const actualAd = data.find((el) => el.id === Number(id));
+  const userId = localData.id;
   const currentUserAd = userId === actualAd?.user_id;
 
-  const [isEditModePopup, setEditModePopup] = useState(false);
-
   const [deleteAd] = useDeleteAdMutation(id);
-  const navigate = useNavigate();
+  const { data: comments } = useGetAdCommentsQuery(id);
 
   const deleteAdHandler = async (evt) => {
     evt.preventDefault();
@@ -47,10 +48,6 @@ export const AdvPage = () => {
     setActualImg(url);
     setImgIndex(index);
   };
-
-  // отзывы
-  const [isCommentsPopupOpen, setCommentsPopupOpen] = useState(false);
-  const { data: comments } = useGetAdCommentsQuery(id);
 
   return (
     <>

@@ -20,6 +20,16 @@ export const AddNewAd = ({ setPopupOpen, isEditMode, actualAd }) => {
   const [price, setPrice] = useState('');
   const [isFormChanged, setIsFormChanged] = useState(false);
   const [error, setError] = useState(null);
+  const [img, setImg] = useState([]);
+  const [imgSrc, setImgSrc] = useState([]);
+
+  const { id } = useParams();
+
+  const [postAdImg] = usePostAdImgMutation();
+  const [addNewTextOnlyAd] = useAddNewTextOnlyAdMutation();
+  const [editAdd] = useEditAdMutation(id);
+  const [addNewAd] = useAddNewAdMutation({});
+  const [deleteAdImg] = useDeleteAdImgMutation();
 
   const handleTitleChange = (e) => {
     setTitle(e.target.value.trim());
@@ -45,9 +55,6 @@ export const AddNewAd = ({ setPopupOpen, isEditMode, actualAd }) => {
   }, []);
 
   // Обработчик загрузки фото
-  const [img, setImg] = useState([]);
-  const [imgSrc, setImgSrc] = useState([]);
-
   const uploadImgHandler = async (e) => {
     e.preventDefault();
     setImg([]);
@@ -87,8 +94,6 @@ export const AddNewAd = ({ setPopupOpen, isEditMode, actualAd }) => {
   };
 
   // Залить фото объявления
-  const [postAdImg] = usePostAdImgMutation();
-
   const uploadSingleImg = async (evt) => {
     evt.preventDefault();
 
@@ -103,11 +108,6 @@ export const AddNewAd = ({ setPopupOpen, isEditMode, actualAd }) => {
   };
 
   // Опубликовать объявление
-  const [addNewTextOnlyAd] = useAddNewTextOnlyAdMutation();
-  const { id } = useParams();
-  const [editAdd] = useEditAdMutation(id);
-  const [addNewAd] = useAddNewAdMutation({});
-
   const publishAd = async (e) => {
     e.preventDefault();
 
@@ -155,8 +155,6 @@ export const AddNewAd = ({ setPopupOpen, isEditMode, actualAd }) => {
   };
 
   // Удаление фото
-  const [deleteAdImg] = useDeleteAdImgMutation();
-
   const deleteImgHandler = async (evt, imageUrl) => {
     evt.preventDefault();
 

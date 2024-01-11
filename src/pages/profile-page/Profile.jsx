@@ -15,6 +15,13 @@ import { ChangePassword } from '../../components/modals/ChangePass';
 
 export const Profile = () => {
   const [isEditMode, setEditMode] = useState(false);
+  const [name, setName] = useState('');
+  const [surname, setSurname] = useState('');
+  const [city, setCity] = useState('');
+  const [phone, setPhone] = useState('');
+  const [isFormChanged, setIsFormChanged] = useState(false);
+  const [typeError, setTypeError] = useState(null);
+  const [changePassPopupOpen, setChangePassPopupOpen] = useState(false);
 
   const {
     data: userData = [],
@@ -23,12 +30,13 @@ export const Profile = () => {
     error,
   } = useGetCurrentUserQuery();
   const [editUserProfile] = useEditUserProfileMutation();
-
-  const [name, setName] = useState('');
-  const [surname, setSurname] = useState('');
-  const [city, setCity] = useState('');
-  const [phone, setPhone] = useState('');
-  const [isFormChanged, setIsFormChanged] = useState(false);
+  const [uploadUserAvatar] = useUploadUserAvatarMutation();
+  const {
+    data = [],
+    isLoading: adsLoading,
+    isError: isAdsError,
+    error: adsError,
+  } = useGetUserAdsQuery();
 
   const handleNameChange = (e) => {
     setName(e.target.value.trim());
@@ -86,17 +94,6 @@ export const Profile = () => {
     setEditMode(false);
   };
 
-  const {
-    data = [],
-    isLoading: adsLoading,
-    isError: isAdsError,
-    error: adsError,
-  } = useGetUserAdsQuery();
-
-  const [typeError, setTypeError] = useState(null);
-
-  const [uploadUserAvatar] = useUploadUserAvatarMutation();
-
   // загрузить аватар
   const uploadAvatar = async (evt) => {
     evt.preventDefault();
@@ -112,9 +109,6 @@ export const Profile = () => {
     await uploadUserAvatar(formData).unwrap();
     setTypeError(null);
   };
-
-  // Смена пароля
-  const [changePassPopupOpen, setChangePassPopupOpen] = useState(false);
 
   return isLoading ? (
     <LoaderMarginContainer>
