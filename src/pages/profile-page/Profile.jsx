@@ -11,6 +11,7 @@ import {
 } from '../../services/ads';
 import { baseUrl } from '../../utils/url';
 import * as S from './Profile.styles';
+import { ChangePassword } from '../../components/modals/ChangePass';
 
 export const Profile = () => {
   const [isEditMode, setEditMode] = useState(false);
@@ -112,6 +113,9 @@ export const Profile = () => {
     setTypeError(null);
   };
 
+  // Смена пароля
+  const [changePassPopupOpen, setChangePassPopupOpen] = useState(false);
+
   return isLoading ? (
     <LoaderMarginContainer>
       <Loader />
@@ -199,6 +203,14 @@ export const Profile = () => {
                       >
                         Сохранить
                       </S.SettingsButton>
+                      <S.SettingsButton
+                        onClick={() => setChangePassPopupOpen(true)}
+                      >
+                        Сменить пароль
+                      </S.SettingsButton>
+                      {changePassPopupOpen && (
+                        <ChangePassword setPopupOpen={setChangePassPopupOpen} />
+                      )}
                       <S.SettingsButton onClick={() => setEditMode(false)}>
                         Назад
                       </S.SettingsButton>

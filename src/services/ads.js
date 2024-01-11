@@ -138,6 +138,14 @@ export const adsApi = createApi({
       }),
       invalidatesTags: ['Ads'],
     }),
+    changePass: build.mutation({
+      query: ({ password_1, password_2 }) => ({
+        url: 'user/password',
+        method: 'PUT',
+        body: { password_1, password_2 },
+      }),
+      invalidatesTags: ['Ads'],
+    }),
 
     //Ads
     getAds: build.query({
@@ -248,6 +256,7 @@ export const {
   useGetCurrentUserQuery,
   useEditUserProfileMutation,
   useUploadUserAvatarMutation,
+  useChangePassMutation,
 
   useGetAdsQuery,
   useGetCurrentUserAdsQuery,
