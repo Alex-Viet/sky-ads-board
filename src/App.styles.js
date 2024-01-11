@@ -81,6 +81,12 @@ export const Container = styled.div`
   width: 100%;
   margin: 0 auto;
   background-color: #ffffff;
+
+  @media screen and (max-width: 590px) {
+    width: 100%;
+    min-width: 320px;
+    min-height: 100vh;
+  }
 `;
 
 export const Main = styled.main``;
@@ -89,6 +95,10 @@ export const MainContainer = styled.div`
   max-width: 1208px;
   margin: 0 auto;
   padding: 4px 10px 30px;
+
+  @media screen and (max-width: 590px) {
+    padding: 55px 10px 84px;
+  }
 `;
 
 export const LoaderMarginContainer = styled.div`
@@ -128,10 +138,41 @@ export const TitleH2 = css`
   font-size: 40px;
   font-style: normal;
   line-height: 220%;
+
+  @media screen and (max-width: 590px) {
+    font-size: 24px;
+    line-height: 29px;
+    color: #000000;
+    position: relative;
+  }
+`;
+
+export const TitleH2MobMixin = css`
+  @media screen and (max-width: 590px) {
+    &::before {
+      content: '';
+      display: block;
+      width: 12px;
+      height: 12px;
+      background-color: transparent;
+      border-top: 2px solid #000000;
+      border-left: 2px solid #000000;
+      transform: rotate(-45deg);
+      position: absolute;
+      top: 9px;
+      left: 13px;
+      cursor: pointer;
+    }
+  }
 `;
 
 export const HeadingH3 = css`
   ${TitleH2}
 
   font-size: 32px;
+
+  @media screen and (max-width: 590px) {
+    font-size: 18px;
+    line-height: 140%;
+  }
 `;

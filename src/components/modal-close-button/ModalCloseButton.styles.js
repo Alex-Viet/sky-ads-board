@@ -8,6 +8,10 @@ export const ModalButtonClose = styled.div`
   right: 50px;
   z-index: 3;
   cursor: pointer;
+
+  @media screen and (max-width: 600px) {
+    display: none;
+  }
 `;
 
 export const ModalButtonCloseLine = styled.div`

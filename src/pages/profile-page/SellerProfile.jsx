@@ -45,20 +45,8 @@ export const SellerProfile = () => {
                   <p>{sellerData?.name}</p>
                   <p>{sellerData?.city}</p>
                   <p>Продает товары с {formatDate(sellerData?.sells_from)}</p>
-
-                  <div className="seller__img-mob-block">
-                    <div
-                      className="seller__img-mob"
-                      style={{ display: 'none' }}
-                    >
-                      <a href="" target="_self">
-                        <img src="#" alt="" />
-                      </a>
-                    </div>
-
-                    <ShowPhoneNumButton phone={sellerData?.phone} />
-                  </div>
                 </S.SellerInfoContainer>
+                <ShowPhoneNumButton phone={sellerData?.phone} />
               </S.SettingsRight>
             </S.ProfileSettings>
           </S.ProfileContent>

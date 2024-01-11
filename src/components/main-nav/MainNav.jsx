@@ -13,7 +13,7 @@ export const MainNav = () => {
         <S.SearchLogoImg src="/img/logo.png" alt="logo" />
       </Link>
       <S.SearchLogoMobLink href="#">
-        <S.SearchLogoMobImg src="img/logo-mob.png" alt="logo" />
+        <S.SearchLogoMobImg src="/img/logo-mob.png" alt="logo" />
       </S.SearchLogoMobLink>
       <S.SearchBlock>
         {pathname === '/' ? (

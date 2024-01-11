@@ -9,6 +9,13 @@ export const ProfileTitle = styled.h2`
   ${TitleH2}
 
   margin-bottom: 10px;
+
+  @media screen and (max-width: 890px) {
+    font-size: 24px;
+    line-height: 29px;
+    color: #000000;
+    margin: 30px 0 20px 0;
+  }
 `;
 
 export const Profile = styled.div`
@@ -17,18 +24,30 @@ export const Profile = styled.div`
 
 export const ProfileContent = styled.div`
   max-width: 834px;
+
+  @media screen and (max-width: 890px) {
+    max-width: 834px;
+    width: 100%;
+  }
 `;
 
 export const ProfileHeading = styled.h3`
   ${HeadingH3}
 
   margin-bottom: 20px;
+
+  @media screen and (max-width: 890px) {
+    margin-bottom: 0;
+  }
 `;
 
 export const ProfileSettings = styled.div`
   display: flex;
-  align-items: top;
   justify-content: center;
+
+  @media screen and (max-width: 890px) {
+    flex-wrap: wrap;
+  }
 `;
 
 export const SettingsLeft = styled.div`
@@ -36,6 +55,14 @@ export const SettingsLeft = styled.div`
   flex-direction: column;
   align-items: center;
   margin-right: 47px;
+
+  @media screen and (max-width: 620px) {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin: 0;
+    order: 2;
+  }
 `;
 
 export const SettingsAvatar = styled.div`
@@ -50,6 +77,12 @@ export const SettingsAvatar = styled.div`
     display: block;
     object-fit: cover;
     border-radius: inherit;
+  }
+
+  @media screen and (max-width: 620px) {
+    width: 132px;
+    height: 132px;
+    margin-top: 30px;
   }
 `;
 
@@ -76,6 +109,11 @@ export const SettingsChangeAvatarLabel = styled.label`
 
 export const SettingsRight = styled.div`
   width: 630px;
+
+  @media screen and (max-width: 620px) {
+    width: 100%;
+    order: 1;
+  }
 `;
 
 export const SettingsForm = styled.div`
@@ -108,11 +146,34 @@ export const SettingsForm = styled.div`
     margin-bottom: 4px;
     display: block;
   }
+
+  @media screen and (max-width: 620px) {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+
+    & input {
+      border-radius: 30px;
+      padding: 9px 17px;
+
+      &::placeholder {
+        font-size: 14px;
+        line-height: 21px;
+      }
+    }
+
+    & label {
+      font-size: 14px;
+      line-height: 21px;
+      color: #c4c4c4;
+      margin-bottom: 6px;
+    }
+  }
 `;
 
 export const SettingsInputContainer = styled.div`
   display: inline-block;
-  margin: 0 7px 25px;
+  margin: 0 0 25px;
   input::-webkit-outer-spin-button,
   input::-webkit-inner-spin-button {
     -webkit-appearance: none;
@@ -123,6 +184,10 @@ export const SettingsInputContainer = styled.div`
     input {
       width: 614px;
       -moz-appearance: textfield;
+
+      @media screen and (max-width: 620px) {
+        width: 300px;
+      }
     }
   }
 `;
@@ -144,6 +209,14 @@ export const SettingsButton = styled.button`
 
   &:hover {
     background-color: ${(props) => (props.$disabled ? '#afb3ba' : '')};
+  }
+
+  @media screen and (max-width: 620px) {
+    font-size: 16px;
+    line-height: 1;
+    width: 300px;
+    height: 46px;
+    margin: 8px 0px 0;
   }
 `;
 
@@ -175,6 +248,12 @@ export const SellerInfoContainer = styled.div`
 export const UserInfoContainer = styled(SellerInfoContainer)`
   display: flex;
   flex-direction: column;
+
+  @media screen and (max-width: 800px) {
+    margin-top: 20px;
+    text-align: center;
+    align-items: center;
+  }
 `;
 
 export const TypeErrorText = styled.h3`

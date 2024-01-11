@@ -56,22 +56,26 @@ export const Auth = () => {
     if (isLoginMode) {
       // Авторизация
 
-      const tokensData = await getTokens({ email, password });
-      if (tokensData.error?.status === 401) {
-        setError('Неправильный пароль');
-        return;
+      try {
+        const tokensData = await getTokens({ email, password });
+        if (tokensData.error?.status === 401) {
+          setError('Неправильный пароль');
+          return;
+        }
+
+        dispatch(
+          setAuth({
+            email,
+            access: tokensData.data.access_token,
+            refresh: tokensData.data.refresh_token,
+            isAuth: true,
+          }),
+        );
+
+        navigate('/profile', { replace: true });
+      } catch (error) {
+        console.error(error);
       }
-
-      dispatch(
-        setAuth({
-          email,
-          access: tokensData.data.access_token,
-          refresh: tokensData.data.refresh_token,
-          isAuth: true,
-        }),
-      );
-
-      navigate('/profile', { replace: true });
     } else {
       if (password !== repeatPass) {
         setError('Пароли не совпадают');

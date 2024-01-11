@@ -11,9 +11,17 @@ import {
 } from '../../services/ads';
 import { baseUrl } from '../../utils/url';
 import * as S from './Profile.styles';
+import { ChangePassword } from '../../components/modals/ChangePass';
 
 export const Profile = () => {
   const [isEditMode, setEditMode] = useState(false);
+  const [name, setName] = useState('');
+  const [surname, setSurname] = useState('');
+  const [city, setCity] = useState('');
+  const [phone, setPhone] = useState('');
+  const [isFormChanged, setIsFormChanged] = useState(false);
+  const [typeError, setTypeError] = useState(null);
+  const [changePassPopupOpen, setChangePassPopupOpen] = useState(false);
 
   const {
     data: userData = [],
@@ -22,12 +30,13 @@ export const Profile = () => {
     error,
   } = useGetCurrentUserQuery();
   const [editUserProfile] = useEditUserProfileMutation();
-
-  const [name, setName] = useState('');
-  const [surname, setSurname] = useState('');
-  const [city, setCity] = useState('');
-  const [phone, setPhone] = useState('');
-  const [isFormChanged, setIsFormChanged] = useState(false);
+  const [uploadUserAvatar] = useUploadUserAvatarMutation();
+  const {
+    data = [],
+    isLoading: adsLoading,
+    isError: isAdsError,
+    error: adsError,
+  } = useGetUserAdsQuery();
 
   const handleNameChange = (e) => {
     setName(e.target.value.trim());
@@ -84,17 +93,6 @@ export const Profile = () => {
     setIsFormChanged(false);
     setEditMode(false);
   };
-
-  const {
-    data = [],
-    isLoading: adsLoading,
-    isError: isAdsError,
-    error: adsError,
-  } = useGetUserAdsQuery();
-
-  const [typeError, setTypeError] = useState(null);
-
-  const [uploadUserAvatar] = useUploadUserAvatarMutation();
 
   // загрузить аватар
   const uploadAvatar = async (evt) => {
@@ -199,6 +197,14 @@ export const Profile = () => {
                       >
                         Сохранить
                       </S.SettingsButton>
+                      <S.SettingsButton
+                        onClick={() => setChangePassPopupOpen(true)}
+                      >
+                        Сменить пароль
+                      </S.SettingsButton>
+                      {changePassPopupOpen && (
+                        <ChangePassword setPopupOpen={setChangePassPopupOpen} />
+                      )}
                       <S.SettingsButton onClick={() => setEditMode(false)}>
                         Назад
                       </S.SettingsButton>

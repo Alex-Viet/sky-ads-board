@@ -18,22 +18,24 @@ import { baseUrl } from '../../utils/url';
 import * as S from './AdvPage.styles';
 
 export const AdvPage = () => {
-  const { id } = useParams();
-  const { data = [], isLoading, isError, error } = useGetAdsQuery();
-  const actualAd = data.find((el) => el.id === Number(id));
-
   const [actualImg, setActualImg] = useState(null);
+  const [imgIndex, setImgIndex] = useState(0);
+  const [isEditModePopup, setEditModePopup] = useState(false);
+  const [isCommentsPopupOpen, setCommentsPopupOpen] = useState(false);
+
+  const { id } = useParams();
+  const navigate = useNavigate();
 
   const user = useSelector((state) => state.auth.isAuth);
   const localData = JSON.parse(localStorage.getItem(AUTH_KEY)) || [];
-  const userId = localData.id;
 
+  const { data = [], isLoading, isError, error } = useGetAdsQuery();
+  const actualAd = data.find((el) => el.id === Number(id));
+  const userId = localData.id;
   const currentUserAd = userId === actualAd?.user_id;
 
-  const [isEditModePopup, setEditModePopup] = useState(false);
-
   const [deleteAd] = useDeleteAdMutation(id);
-  const navigate = useNavigate();
+  const { data: comments } = useGetAdCommentsQuery(id);
 
   const deleteAdHandler = async (evt) => {
     evt.preventDefault();
@@ -42,9 +44,10 @@ export const AdvPage = () => {
     navigate('/profile');
   };
 
-  // отзывы
-  const [isCommentsPopupOpen, setCommentsPopupOpen] = useState(false);
-  const { data: comments } = useGetAdCommentsQuery(id);
+  const setMobImg = (url, index) => {
+    setActualImg(url);
+    setImgIndex(index);
+  };
 
   return (
     <>
@@ -70,6 +73,9 @@ export const AdvPage = () => {
             <S.Article>
               <S.ArticleMerryGoRound>
                 <S.Carousel>
+                  <Link to="/">
+                    <S.BackBtn></S.BackBtn>
+                  </Link>
                   <S.CarouselImg>
                     <img
                       src={
@@ -101,11 +107,13 @@ export const AdvPage = () => {
                     ))}
                   </S.CarouselBar>
                   <S.CarouselBarMob>
-                    <div className="img-bar-mob__circle circle-active"></div>
-                    <div className="img-bar-mob__circle"></div>
-                    <div className="img-bar-mob__circle"></div>
-                    <div className="img-bar-mob__circle"></div>
-                    <div className="img-bar-mob__circle"></div>
+                    {actualAd?.images.map((image, index) => (
+                      <S.CarouselBarMobCircle
+                        key={image.id}
+                        $active={index === imgIndex}
+                        onClick={() => setMobImg(image.url, index)}
+                      ></S.CarouselBarMobCircle>
+                    ))}
                   </S.CarouselBarMob>
                 </S.Carousel>
               </S.ArticleMerryGoRound>
