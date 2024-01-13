@@ -64,6 +64,7 @@ export const SearchBlock = styled.div`
     max-width: 1044px;
     width: 100%;
     display: flex;
+    justify-content: flex-end;
   }
 `;
 
@@ -143,5 +144,16 @@ export const GoMainPageButton = styled.button`
 
   @media screen and (max-width: 590px) {
     display: none;
+  }
+`;
+
+export const HeaderLogoutImg = styled.img`
+  display: none;
+
+  @media screen and (max-width: 590px) {
+    display: inline-block;
+    width: 32px;
+    height: 32px;
+    background-color: inherit;
   }
 `;

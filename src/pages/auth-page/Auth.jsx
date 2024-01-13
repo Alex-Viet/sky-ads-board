@@ -58,21 +58,22 @@ export const Auth = () => {
 
       try {
         const tokensData = await getTokens({ email, password });
-        if (tokensData.error?.status === 401) {
-          setError('Неправильный пароль');
+        if (tokensData?.error?.data?.detail) {
+          setError('Вы ввели некорректные данные');
           return;
         }
 
         dispatch(
           setAuth({
             email,
-            access: tokensData.data.access_token,
-            refresh: tokensData.data.refresh_token,
+            access: tokensData?.data.access_token,
+            refresh: tokensData?.data.refresh_token,
             isAuth: true,
           }),
         );
 
         navigate('/profile', { replace: true });
+        setError(null);
       } catch (error) {
         console.error(error);
       }

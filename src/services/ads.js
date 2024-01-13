@@ -28,7 +28,6 @@ export const baseQueryWithReauth = async (args, api, extraOptions) => {
       }),
     );
     localStorage.clear();
-    window.location.assign('/auth');
   };
 
   const result = await baseQuery(args, api, extraOptions);
@@ -59,8 +58,8 @@ export const baseQueryWithReauth = async (args, api, extraOptions) => {
     api.dispatch(
       setAuth({
         ...auth,
-        access: refreshResult.data.access_token,
-        refresh: refreshResult.data.refresh_token,
+        access: refreshResult?.data?.access_token,
+        refresh: refreshResult?.data?.refresh_token,
       }),
     );
   };

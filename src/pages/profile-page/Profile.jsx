@@ -110,6 +110,17 @@ export const Profile = () => {
     setTypeError(null);
   };
 
+  const handleBackBtn = (e) => {
+    e.preventDefault();
+
+    setIsFormChanged(false);
+    setName(userData.name);
+    setSurname(userData.surname);
+    setCity(userData.city);
+    setPhone(userData.phone);
+    setEditMode(false);
+  };
+
   return isLoading ? (
     <LoaderMarginContainer>
       <Loader />
@@ -205,17 +216,17 @@ export const Profile = () => {
                       {changePassPopupOpen && (
                         <ChangePassword setPopupOpen={setChangePassPopupOpen} />
                       )}
-                      <S.SettingsButton onClick={() => setEditMode(false)}>
+                      <S.SettingsButton onClick={handleBackBtn}>
                         Назад
                       </S.SettingsButton>
                     </>
                   ) : (
                     <S.UserInfoContainer>
                       <p>
-                        {name} {surname}
+                        {userData.name} {userData.surname}
                       </p>
-                      <p>{city}</p>
-                      <p>{phone}</p>
+                      <p>{userData.city}</p>
+                      <p>{userData.phone}</p>
                       <S.SettingsButton onClick={handleEditModeBtn}>
                         Редактировать
                       </S.SettingsButton>

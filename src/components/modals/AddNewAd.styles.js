@@ -16,6 +16,8 @@ export const Wrapper = styled.div`
 
   @media screen and (max-width: 600px) {
     position: static;
+    width: 1px;
+    overflow: auto;
   }
 `;
 
@@ -40,7 +42,7 @@ export const ModalBlock = styled.div`
 
   @media screen and (max-width: 600px) {
     position: absolute;
-    left: -170px;
+    left: -47px;
     top: -231px;
   }
 `;
