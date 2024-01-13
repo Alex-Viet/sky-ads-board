@@ -27,6 +27,12 @@ export const FooterContainer = styled.div`
   }
 `;
 
+export const FooterImgContainer = styled.div`
+  display: flex;
+  width: 100%;
+  justify-content: space-between;
+`;
+
 export const FooterImg = styled.div`
   @media screen and (max-width: 590px) {
     width: 42px;

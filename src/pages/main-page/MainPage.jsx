@@ -12,7 +12,10 @@ export const MainPage = () => {
       <Loader />
     </LoaderMarginContainer>
   ) : isError ? (
-    <h2>Ошибка: {error?.error}</h2>
+    <h2>
+      Ошибка:{' '}
+      {error?.error && 'К сожалению, не удалось получить данные с сервера'}
+    </h2>
   ) : (
     <>
       <S.MainTitle>Объявления</S.MainTitle>
