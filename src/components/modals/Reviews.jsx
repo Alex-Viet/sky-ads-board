@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
+import { useWindowWidth } from '@react-hook/window-size';
 import { ModalCloseButton } from '../modal-close-button/ModalCloseButton';
 import {
   useGetAdCommentsQuery,
@@ -18,6 +19,7 @@ export const Reviews = ({ setPopupOpen, id }) => {
   const [commentError, setCommentError] = useState(null);
 
   const user = useSelector((state) => state.auth.isAuth);
+  const width = useWindowWidth();
 
   const handleCommentChange = (e) => {
     setComment(e.target.value);
@@ -48,6 +50,13 @@ export const Reviews = ({ setPopupOpen, id }) => {
     setComment('');
   };
 
+  const handleBackBtnClick = (evt) => {
+    evt.preventDefault();
+    if (width <= 600) {
+      setPopupOpen(false);
+    }
+  };
+
   return isLoading ? (
     <LoaderMarginContainer>
       <Loader />
@@ -59,7 +68,9 @@ export const Reviews = ({ setPopupOpen, id }) => {
       <S.ContainerBg>
         <S.ModalBlock>
           <S.ModalContent>
-            <S.ModalHeading>Отзывы о товаре</S.ModalHeading>
+            <S.ModalHeading onClick={handleBackBtnClick}>
+              Отзывы о товаре
+            </S.ModalHeading>
             <ModalCloseButton setPopupOpen={setPopupOpen} />
             <S.ModalScroll>
               <S.ModalFormAddReview>
