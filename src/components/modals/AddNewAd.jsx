@@ -1,6 +1,7 @@
 import { useEffect } from 'react';
 import { useState } from 'react';
 import { useParams } from 'react-router-dom';
+import { useWindowWidth } from '@react-hook/window-size';
 import { baseUrl } from '../../utils/url';
 import {
   useAddNewTextOnlyAdMutation,
@@ -22,6 +23,7 @@ export const AddNewAd = ({ setPopupOpen, isEditMode, actualAd }) => {
   const [error, setError] = useState(null);
   const [img, setImg] = useState([]);
   const [imgSrc, setImgSrc] = useState([]);
+  const width = useWindowWidth();
 
   const { id } = useParams();
 
@@ -163,12 +165,19 @@ export const AddNewAd = ({ setPopupOpen, isEditMode, actualAd }) => {
     await deleteAdImg(data).unwrap();
   };
 
+  const handleBackBtnClick = (evt) => {
+    evt.preventDefault();
+    if (width <= 600) {
+      setPopupOpen(false);
+    }
+  };
+
   return (
     <S.Wrapper>
       <S.ContainerBg>
         <S.ModalBlock>
           <S.ModalContent>
-            <S.ModalHeading>
+            <S.ModalHeading onClick={handleBackBtnClick}>
               {isEditMode ? 'Редактировать объявление' : 'Новое объявление'}
             </S.ModalHeading>
             <ModalCloseButton setPopupOpen={setPopupOpen} />

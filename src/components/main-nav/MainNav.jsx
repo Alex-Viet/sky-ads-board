@@ -27,10 +27,14 @@ export const MainNav = () => {
     <S.MainSearch>
       <Link to="/">
         <S.SearchLogoImg src="/img/logo.png" alt="logo" />
-        <S.SearchLogoMobLink>
-          <S.SearchLogoMobImg src="/img/logo-mob.png" alt="logo" />
-        </S.SearchLogoMobLink>
       </Link>
+      <S.SearchLogoMobLink
+        onClick={() => {
+          navigate('/');
+        }}
+      >
+        <S.SearchLogoMobImg src="/img/logo-mob.png" alt="logo" />
+      </S.SearchLogoMobLink>
       <S.SearchBlock>
         {pathname === '/' ? (
           <>
